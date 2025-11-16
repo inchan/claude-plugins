@@ -1,0 +1,22 @@
+{
+  "cli_name": "rovo-dev",
+  "display_name": "Atlassian Rovo Dev CLI",
+  "current_supported_version": "1.0.0",
+  "minimum_version": "0.8.0",
+  "last_checked": "2025-11-16",
+  "sources": {
+    "official_docs": "https://developer.atlassian.com/rovo/dev-cli",
+    "marketplace": "https://marketplace.atlassian.com/rovo",
+    "changelog": "https://developer.atlassian.com/rovo/changelog"
+  },
+  "verification": {
+    "install_check": "which rovo-dev",
+    "version_command": "rovo-dev --version",
+    "version_pattern": "rovo-dev (\\d+\\.\\d+\\.\\d+)"
+  },
+  "requirements": {
+    "atlassian_cloud": true,
+    "jira_access": true,
+    "confluence_access": true
+  }
+}

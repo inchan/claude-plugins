@@ -1,0 +1,23 @@
+{
+  "cli_name": "aider",
+  "display_name": "Aider CLI",
+  "current_supported_version": "0.50.0",
+  "minimum_version": "0.40.0",
+  "last_checked": "2025-11-16",
+  "sources": {
+    "official_docs": "https://aider.chat/docs",
+    "github_repo": "https://github.com/paul-gauthier/aider",
+    "changelog": "https://github.com/paul-gauthier/aider/releases",
+    "pypi": "https://pypi.org/project/aider-chat"
+  },
+  "verification": {
+    "install_check": "which aider",
+    "version_command": "aider --version",
+    "version_pattern": "aider (\\d+\\.\\d+\\.\\d+)"
+  },
+  "requirements": {
+    "api_key_env": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY"],
+    "min_python_version": "3.9",
+    "git_required": true
+  }
+}

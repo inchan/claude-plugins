@@ -1,0 +1,21 @@
+{
+  "cli_name": "qwen",
+  "display_name": "Alibaba Qwen CLI",
+  "current_supported_version": "1.0.0",
+  "minimum_version": "0.9.0",
+  "last_checked": "2025-11-16",
+  "sources": {
+    "official_docs": "https://qwen.alibaba.com/docs/cli",
+    "github_repo": "https://github.com/alibaba/qwen-cli",
+    "changelog": "https://github.com/alibaba/qwen-cli/releases"
+  },
+  "verification": {
+    "install_check": "which qwen",
+    "version_command": "qwen --version",
+    "version_pattern": "qwen version (\\d+\\.\\d+\\.\\d+)"
+  },
+  "requirements": {
+    "api_key_env": "QWEN_API_KEY",
+    "min_python_version": "3.8"
+  }
+}
