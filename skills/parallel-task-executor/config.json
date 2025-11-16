@@ -1,0 +1,21 @@
+{
+  "parallelism": {
+    "min_workers": 2,
+    "max_workers": 10,
+    "default_workers": 5
+  },
+  "timeouts": {
+    "default_task": 300,
+    "max_task": 600,
+    "worker_heartbeat": 30
+  },
+  "retry": {
+    "max_attempts": 3,
+    "backoff_multiplier": 2,
+    "initial_delay": 1
+  },
+  "resources": {
+    "max_memory_mb": 4096,
+    "cpu_threshold": 0.8
+  }
+}

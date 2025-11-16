@@ -1,0 +1,45 @@
+{
+  "skill_name": "dynamic-task-orchestrator",
+  "version": "1.0.0",
+  "orchestration": {
+    "default_mode": "autonomous",
+    "max_parallel_workers": 3,
+    "auto_checkpoint_interval": 5,
+    "max_replanning_attempts": 10
+  },
+  "workers": {
+    "code_analyzer": {
+      "enabled": true,
+      "timeout_minutes": 15
+    },
+    "architect": {
+      "enabled": true,
+      "timeout_minutes": 30
+    },
+    "developer": {
+      "enabled": true,
+      "timeout_minutes": 60
+    },
+    "tester": {
+      "enabled": true,
+      "timeout_minutes": 45
+    },
+    "documenter": {
+      "enabled": true,
+      "timeout_minutes": 20
+    },
+    "optimizer": {
+      "enabled": true,
+      "timeout_minutes": 30
+    }
+  },
+  "checkpointing": {
+    "enabled": true,
+    "checkpoint_directory": ".orchestrator_checkpoints",
+    "max_checkpoints_retained": 10
+  },
+  "communication": {
+    "message_queue_size": 1000,
+    "message_timeout_seconds": 60
+  }
+}

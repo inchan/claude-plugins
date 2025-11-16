@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "DISABLE_AUTOUPDATER": "1"
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "/Users/inchan/.claude/statusline-command.sh"
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754283652538
+  },
+  "permissions": {
+    "allow": [
+      "Bash(npm * *)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "mcpServers": {
+    "Context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "Sequential-Thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    }
+  },
+  "alwaysThinkingEnabled": false,
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true,
+    "example-skills@anthropic-agent-skills": true,
+    "document-skills@anthropic-agent-skills": true,
+    "meta-cc@meta-cc-marketplace": true
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/inchan/.claude/hooks/skill-activation-prompt.sh"
+          },
+          {
+            "type": "command",
+            "command": "/Users/inchan/.claude/hooks/meta-prompt-logger.js"
+          },
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/inchan/.claude/hooks/post-tool-use-tracker.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/inchan/.claude/hooks/stop-hook-lint-and-translate.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

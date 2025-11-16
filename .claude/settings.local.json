@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(done)",
+      "Bash(find:*)",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Claude Code Skills & Hooks 통합 관리 시스템\n\n- 19개 스킬 (워크플로우, 품질관리, 개발가이드 등)\n- 훅 시스템 (UserPromptSubmit, PostToolUse, Stop)\n- 스킬 규칙 설정 및 자동 활성화 지원\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
