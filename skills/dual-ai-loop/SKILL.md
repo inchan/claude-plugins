@@ -62,26 +62,46 @@ description: 외부 AI CLI(codex, qwen, copilot, rovo-dev, aider)와 Claude의 �
 주의: aider는 의존성 충돌 가능성 높음
 ```
 
-### Step 2: CLI 상태 확인
+### Step 2: CLI 실행 가능 여부 확인 (필수!)
 
-선택된 CLI의 상태를 확인합니다:
+⚠️ **중요**: **설치 + 인증** 두 조건 모두 충족되어야 실행 가능합니다.
 
 ```bash
 # 1. 설치 여부 확인
 which <cli_name>
+# ✅ 경로 출력 → 설치됨
+# ❌ 출력 없음 → 미설치 (설치 필요)
 
-# 2. 버전 확인
-<cli_name> --version
+# 2. 인증/로그인 상태 확인 (CLI별 다름)
 
-# 3. 스킬 지원 버전과 비교
-# cli-adapters/<cli_name>/VERSION.json 참조
+# codex:
+codex login --status
+# ✅ "Logged in as..." → 인증됨
+# ❌ "Not logged in" → 미인증 (codex login 필요)
+
+# qwen:
+qwen -p "test" 2>&1 | head -3
+# ✅ AI 응답 → 인증됨
+# ❌ "Please set an Auth method" → 미인증 (qwen 실행 후 Sign in)
+
+# aider:
+echo $OPENAI_API_KEY  # 또는 ANTHROPIC_API_KEY
+# ✅ 값 있음 → 키 설정됨
+# ❌ 빈 값 → export OPENAI_API_KEY="..." 필요
 ```
 
 **상태별 처리:**
 
-- **미설치**: 설치 가이드 안내 (해당 어댑터 스킬 참조)
-- **버전 불일치**: cli-updater 서브에이전트로 업데이트 제안
-- **정상**: 루프 진행
+| 설치 | 인증 | 결과 | 조치 |
+|------|------|------|------|
+| ✅ | ✅ | **실행 가능** | 루프 진행 |
+| ✅ | ❌ | **실행 불가** | 인증 가이드 안내 후 대기 |
+| ❌ | - | **실행 불가** | 설치 가이드 안내 후 대기 |
+
+**실패 시 대안:**
+1. 사용자가 인증/설치 완료할 때까지 대기
+2. 다른 CLI 선택
+3. Claude가 직접 구현 (외부 AI 없이)
 
 ### Step 3: 역할 설정
 
