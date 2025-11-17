@@ -1,0 +1,63 @@
+{
+  "cli_name": "aider",
+  "display_name": "Aider CLI",
+  "current_supported_version": "0.86.1",
+  "minimum_version": "0.50.0",
+  "last_checked": "2025-11-17",
+  "last_updated": "2025-11-17",
+  "verification_level": {
+    "package_exists": true,
+    "installation_tested": true,
+    "commands_verified": false,
+    "dual_ai_loop_tested": false
+  },
+  "verified": "partial",
+  "test_results": {
+    "pip_install": "FAILED - strict version requirements",
+    "pypi_exists": "YES - aider-chat v0.86.1",
+    "version_command": "NOT TESTED - import errors",
+    "dependencies_count": "50+ with exact versions",
+    "system_conflicts": [
+      "PyYAML 6.0.1 vs 6.0.2 required",
+      "packaging 24.0 vs 25.0 required",
+      "requests 2.32.5 vs 2.32.4 required"
+    ],
+    "missing_modules_chain": [
+      "importlib_resources",
+      "shtab",
+      "dotenv",
+      "json5",
+      "PIL",
+      "oslex",
+      "posthog",
+      "and more..."
+    ]
+  },
+  "warning": "의존성 버전이 매우 엄격합니다. 가상환경(venv) 사용을 강력히 권장합니다. 시스템 Python과 충돌 가능성이 높습니다.",
+  "installation_notes": {
+    "recommended": "python -m venv aider-env && source aider-env/bin/activate && pip install aider-chat",
+    "issue": "시스템 패키지와 버전 충돌, --no-deps 설치 시 긴 의존성 체인"
+  },
+  "sources": {
+    "official_docs": "https://aider.chat/docs",
+    "github_repo": "https://github.com/paul-gauthier/aider",
+    "changelog": "https://github.com/paul-gauthier/aider/releases",
+    "pypi": "https://pypi.org/project/aider-chat"
+  },
+  "verification": {
+    "install_check": "which aider",
+    "version_command": "aider --version",
+    "version_pattern": "aider (\\d+\\.\\d+\\.\\d+)"
+  },
+  "requirements": {
+    "api_key_env": ["OPENAI_API_KEY", "ANTHROPIC_API_KEY", "DEEPSEEK_API_KEY"],
+    "min_python_version": "3.9",
+    "git_required": true,
+    "virtual_environment": "STRONGLY RECOMMENDED"
+  },
+  "notes": {
+    "install_method": "가상환경에서: pip install aider-chat",
+    "api_key_format": "aider --api-key provider=key",
+    "complexity": "HIGH - 50+ 의존성, 정확한 버전 필수"
+  }
+}

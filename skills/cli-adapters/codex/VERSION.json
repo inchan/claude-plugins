@@ -1,0 +1,74 @@
+{
+  "cli_name": "codex",
+  "display_name": "OpenAI Codex CLI",
+  "current_supported_version": "0.58.0",
+  "minimum_version": "0.50.0",
+  "last_checked": "2025-11-17",
+  "last_updated": "2025-11-17",
+  "verification_level": {
+    "package_exists": true,
+    "installation_tested": true,
+    "commands_verified": true,
+    "dual_ai_loop_tested": false
+  },
+  "verified": "full",
+  "installed_path": "/opt/node22/bin/codex",
+  "test_results": {
+    "npm_install": "SUCCESS - added 1 package in 24s",
+    "which_codex": "/opt/node22/bin/codex",
+    "version_command": "codex-cli 0.58.0",
+    "help_command": "SUCCESS - subcommands and options displayed",
+    "exec_mode": "SUPPORTED via 'codex exec' subcommand",
+    "stdin_support": "YES - 'instructions are read from stdin' when using '-'",
+    "default_model": "gpt-5-codex (research preview)",
+    "sandbox_modes": ["read-only", "workspace-write", "danger-full-access"],
+    "auth_required": "OpenAI API key or ChatGPT account"
+  },
+  "warning": "OpenAI 인증 필요. 실제 API 호출은 테스트되지 않았습니다.",
+  "cli_type": "hybrid",
+  "automation_support": "full",
+  "automation": {
+    "support_level": "full",
+    "non_interactive_mode": {
+      "command": "codex exec",
+      "stdin_support": true,
+      "stdin_pattern": "echo '{prompt}' | codex exec -",
+      "output_format": "text"
+    },
+    "auto_approval_mode": {
+      "available": true,
+      "flag": "--full-auto",
+      "warning": "danger mode - auto-approves all tool calls"
+    },
+    "execution_pattern": "echo '{prompt}' | codex exec -",
+    "timeout_support": true,
+    "sandbox_modes": ["read-only", "workspace-write", "danger-full-access"]
+  },
+  "sources": {
+    "github_repo": "https://github.com/openai/codex",
+    "changelog": "https://github.com/openai/codex/releases",
+    "npm_package": "https://www.npmjs.com/package/@openai/codex"
+  },
+  "install_methods": {
+    "npm": "npm install -g @openai/codex",
+    "homebrew": "brew install --cask codex"
+  },
+  "verification": {
+    "install_check": "which codex || command -v codex",
+    "version_command": "codex --version",
+    "health_check": "codex --help"
+  },
+  "requirements": {
+    "authentication": "ChatGPT account (Plus, Pro, Team, Edu, Enterprise) OR API key",
+    "min_node_version": "16.0.0",
+    "os": ["linux", "macos", "windows"]
+  },
+  "notes": {
+    "auth_method": "ChatGPT 계정 로그인 권장, API 키도 지원",
+    "exec_mode": "codex exec 'prompt' (비대화형 모드)",
+    "stdin_mode": "echo 'prompt' | codex exec - (stdin에서 읽기)",
+    "interactive_mode": "codex (대화형 모드, 터미널 필요)"
+  },
+  "update_check_interval_days": 7,
+  "auto_update_enabled": false
+}

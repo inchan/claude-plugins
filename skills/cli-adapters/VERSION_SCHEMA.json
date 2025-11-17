@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CLI Adapter VERSION.json Schema",
+  "description": "Standard schema for CLI adapter version and configuration files",
+  "type": "object",
+  "required": [
+    "cli_name",
+    "display_name",
+    "current_supported_version",
+    "verification_level",
+    "sources",
+    "install_methods",
+    "verification",
+    "automation"
+  ],
+  "properties": {
+    "cli_name": {
+      "type": "string",
+      "description": "Unique identifier for the CLI"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable name"
+    },
+    "current_supported_version": {
+      "type": "string",
+      "description": "Latest tested version"
+    },
+    "minimum_version": {
+      "type": "string",
+      "description": "Minimum compatible version"
+    },
+    "last_checked": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last verification"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of last update to this file"
+    },
+    "verification_level": {
+      "type": "object",
+      "required": ["package_exists", "installation_tested", "commands_verified", "dual_ai_loop_tested"],
+      "properties": {
+        "package_exists": { "type": "boolean" },
+        "installation_tested": { "type": "boolean" },
+        "commands_verified": { "type": "boolean" },
+        "dual_ai_loop_tested": { "type": "boolean" }
+      }
+    },
+    "verified": {
+      "type": "string",
+      "enum": ["none", "partial", "full"],
+      "description": "Overall verification status"
+    },
+    "cli_type": {
+      "type": "string",
+      "enum": ["command-line", "interactive", "hybrid"],
+      "description": "CLI interface type"
+    },
+    "automation": {
+      "type": "object",
+      "required": ["support_level", "non_interactive_mode", "stdin_support"],
+      "properties": {
+        "support_level": {
+          "type": "string",
+          "enum": ["none", "limited", "full"]
+        },
+        "non_interactive_mode": {
+          "type": "object",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "command_pattern": { "type": "string" },
+            "example": { "type": "string" }
+          }
+        },
+        "stdin_support": {
+          "type": "object",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "command_pattern": { "type": "string" },
+            "example": { "type": "string" }
+          }
+        },
+        "auto_approval_mode": {
+          "type": "object",
+          "properties": {
+            "supported": { "type": "boolean" },
+            "flag": { "type": "string" }
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": { "type": "string", "format": "uri" },
+        "github_repo": { "type": "string", "format": "uri" },
+        "npm_package": { "type": "string", "format": "uri" },
+        "pypi_package": { "type": "string", "format": "uri" },
+        "official_docs": { "type": "string", "format": "uri" }
+      }
+    },
+    "install_methods": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "type": "string" }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["install_check", "version_command"],
+      "properties": {
+        "install_check": { "type": "string" },
+        "version_command": { "type": "string" },
+        "auth_check": { "type": "string" },
+        "health_check": { "type": "string" }
+      }
+    },
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean" },
+        "methods": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "env_vars": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "login_command": { "type": "string" },
+        "status_check_command": { "type": "string" }
+      }
+    },
+    "requirements": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "rate_limits": {
+      "type": "object",
+      "properties": {
+        "daily_requests": { "type": "integer" },
+        "requests_per_minute": { "type": "integer" }
+      }
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

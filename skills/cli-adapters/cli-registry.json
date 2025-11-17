@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CLI Adapter Registry",
+  "description": "Registry of available CLI adapters for dual-ai-loop",
+  "version": "1.0.0",
+  "last_updated": "2025-11-17",
+  "default_cli": "codex",
+  "adapters": {
+    "codex": {
+      "enabled": true,
+      "display_name": "OpenAI Codex CLI",
+      "adapter_path": "cli-adapters/codex",
+      "verification_status": "full",
+      "automation_support": "full",
+      "execution_pattern": "echo '{prompt}' | codex exec -",
+      "tags": ["openai", "gpt", "default"]
+    },
+    "qwen": {
+      "enabled": true,
+      "display_name": "Qwen Code CLI",
+      "adapter_path": "cli-adapters/qwen",
+      "verification_status": "full",
+      "automation_support": "full",
+      "execution_pattern": "qwen -p '{prompt}'",
+      "tags": ["qwen", "alibaba", "oauth"]
+    },
+    "aider": {
+      "enabled": true,
+      "display_name": "Aider CLI",
+      "adapter_path": "cli-adapters/aider",
+      "verification_status": "partial",
+      "automation_support": "limited",
+      "execution_pattern": "aider --message '{prompt}'",
+      "tags": ["aider", "multi-model", "git"]
+    },
+    "rovo-dev": {
+      "enabled": true,
+      "display_name": "Atlassian Rovo Dev CLI",
+      "adapter_path": "cli-adapters/rovo-dev",
+      "verification_status": "partial",
+      "automation_support": "limited",
+      "execution_pattern": "acli rovodev run",
+      "tags": ["atlassian", "jira", "confluence", "acli"]
+    },
+    "copilot": {
+      "enabled": false,
+      "display_name": "GitHub Copilot CLI",
+      "adapter_path": "cli-adapters/copilot",
+      "verification_status": "partial",
+      "automation_support": "unknown",
+      "execution_pattern": "gh copilot suggest '{prompt}'",
+      "tags": ["github", "copilot"]
+    }
+  },
+  "add_new_cli": {
+    "instructions": [
+      "1. Create directory: skills/cli-adapters/{cli-name}/",
+      "2. Add SKILL.md following the template",
+      "3. Add VERSION.json following the schema",
+      "4. Register in this file (cli-registry.json)",
+      "5. Run validation: ./validate-adapter.sh {cli-name}"
+    ],
+    "required_files": [
+      "SKILL.md",
+      "VERSION.json"
+    ],
+    "optional_files": [
+      "examples/",
+      "scripts/"
+    ]
+  }
+}
