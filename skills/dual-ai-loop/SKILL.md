@@ -38,7 +38,7 @@ description: 외부 AI CLI(codex, qwen, copilot, rovo-dev, aider)와 Claude의 �
 두 AI의 강점을 결합하는 엔지니어링 루프입니다. Claude Code와 외부 AI CLI 도구가 협업하여 고품질 코드를 생성합니다.
 
 **핵심 기능:**
-- 외부 AI CLI 도구 선택 (검증된 것: codex, aider)
+- 외부 AI CLI 도구 선택 (검증된 것: codex, qwen)
 - 역할 교체 가능 (구현자/리뷰어)
 - 버전 체크 안내 (수동)
 - 반복적 개선 루프
@@ -168,7 +168,7 @@ B. Claude = 구현, 외부 AI = 검증/리뷰
 선택된 CLI 어댑터의 명령어 패턴 사용:
 
 ```bash
-# codex 예시
+# codex 예시 (stdin 모드 - 검증됨 ✅)
 echo "다음 계획에 따라 구현하세요:
 
 [Claude의 계획]
@@ -177,7 +177,16 @@ echo "다음 계획에 따라 구현하세요:
 - 완전한 작동 코드 제공
 - 에러 처리 포함
 - 베스트 프랙티스 준수
-- 복잡한 로직에 주석 추가" | codex exec
+- 복잡한 로직에 주석 추가" | codex exec -
+
+# qwen 예시 (비대화형 모드 - 검증됨 ✅)
+qwen -p "다음 계획에 따라 구현하세요:
+
+[Claude의 계획]
+
+요구사항:
+- 완전한 작동 코드 제공
+- 에러 처리 포함" --approval-mode auto-edit
 ```
 
 **Phase 3: Claude 리뷰**
