@@ -1,7 +1,7 @@
 # Claude Code Skills & Hooks - 통합 관리 가이드
 
-**최종 업데이트**: 2025-11-14
-**버전**: 1.0.0
+**최종 업데이트**: 2025-11-17
+**버전**: 1.1.0
 
 ---
 
@@ -20,12 +20,20 @@
 
 ## 🔍 현재 상태 분석
 
-### 스킬 현황 (총 19개)
+### 스킬 현황 (총 22개)
 
-#### 1. 워크플로우 관리 (4개)
+#### 1. 워크플로우 관리 (7개)
 - **agent-workflow-manager**: 전체 워크플로우 자동 관리 조율자
   - Router → Sequential/Parallel/Orchestrator → Evaluator 자동 연결
   - 3가지 패턴: Simple (복잡도 < 0.7), Parallel (독립 작업), Complex (복잡도 >= 0.7)
+
+- **agent-workflow-advisor**: 워크플로우 패턴 추천 어드바이저
+  - 작업 분석 및 최적 패턴 제안
+  - 복잡도 기반 의사결정 지원
+
+- **agent-workflow-orchestrator**: 고급 워크플로우 오케스트레이션
+  - 다중 에이전트 조율
+  - 복잡한 작업 흐름 관리
 
 - **intelligent-task-router**: 작업 분류 및 최적 라우팅
   - 8개 카테고리 분류 (bug_fix, feature_development, refactoring, testing, documentation, performance, security, data_processing)
@@ -39,6 +47,10 @@
   - 6개 전문 워커 (Code Analyzer, System Architect, Developer, Test Engineer, Documentation Writer, Performance Optimizer)
   - 복잡도 0.7+ 프로젝트에 최적화
 
+- **sequential-task-processor**: 순차 작업 처리
+  - 단계별 작업 실행
+  - 의존성 관리
+
 #### 2. 품질 관리 (1개)
 - **iterative-quality-enhancer**: 품질 평가 및 최적화
   - 5개 차원 평가 (Functionality, Performance, Code Quality, Security, Documentation)
@@ -49,24 +61,29 @@
 - **backend-dev-guidelines**: Node.js/Express/TypeScript/Prisma 가이드
 - **error-tracking**: Sentry v8 에러 추적 패턴
 
-#### 4. 도구 생성 (3개)
+#### 4. 도구 생성 (4개)
 - **command-creator**: 슬래시 커맨드 생성 및 관리
 - **hooks-creator**: 훅 생성 가이드
 - **skill-creator**: 스킬 생성 가이드
+- **subagent-creator**: 서브에이전트 생성 가이드
 
-#### 5. AI 연동 (3개)
-- **codex-claude-loop**: Codex와 Claude의 dual-AI 엔지니어링 루프
-- **qwen-claude-loop**: Qwen과 Claude의 dual-AI 엔지니어링 루프
-- **codex**: Codex CLI 실행
+#### 5. AI 연동 (1개) ✅ 통합 완료
+- **dual-ai-loop**: 통합 Dual-AI 엔지니어링 루프
+  - 5개 CLI 지원 (codex ✅, qwen ✅, copilot, rovo-dev, aider)
+  - codex와 qwen은 실제 테스트 검증됨
+  - 역할 교체 가능 (구현자/리뷰어)
+  - CLI 어댑터 모듈화 (skills/cli-adapters/)
+  - cli-updater로 자동 버전 관리
 
 #### 6. 프롬프트 도구 (2개)
 - **meta-prompt-generator**: 구조화된 커스텀 슬래시 커맨드 생성
 - **prompt-enhancer**: 프로젝트 컨텍스트 기반 프롬프트 개선
 
-#### 7. 기타 도구 (3개)
+#### 7. 기타 도구 (4개)
+- **skill-developer**: 스킬 개발 종합 가이드 (Anthropic 공식 표준 준수)
 - **route-tester**: 인증 라우트 테스트
 - **web-to-markdown**: 웹페이지 마크다운 변환
-- **sequential-task-processor**: 순차 작업 처리
+- **cli-updater**: CLI 도구 자동 버전 업데이트
 
 ### 훅 현황 (활성화 3개)
 
@@ -96,19 +113,22 @@
 - route-tester
 - error-tracking
 
-**미등록 스킬** (12개):
+**미등록 스킬** (15개):
 - agent-workflow-manager ⚠️
+- agent-workflow-advisor ⚠️
+- agent-workflow-orchestrator ⚠️
 - intelligent-task-router ⚠️
 - parallel-task-executor ⚠️
 - dynamic-task-orchestrator ⚠️
+- sequential-task-processor ⚠️
 - iterative-quality-enhancer ⚠️
 - command-creator
 - hooks-creator
-- codex-claude-loop
-- qwen-claude-loop
-- codex
+- skill-creator
+- subagent-creator
+- dual-ai-loop
+- cli-updater
 - prompt-enhancer
-- 기타
 
 ---
 
@@ -118,9 +138,9 @@
 - **핵심 워크플로우 스킬이 미등록**: agent-workflow-manager, router, parallel-executor, orchestrator, evaluator
 - **자동 활성화 불가**: skill-rules.json에 없어서 UserPromptSubmit 훅이 감지 못함
 
-### 2. 중복 및 정리 필요
-- **스킬 생성 중복**: skill-creator, skill-developer (유사 기능)
-- **AI Loop 중복**: codex-claude-loop, qwen-claude-loop (동일 패턴)
+### 2. 중복 및 정리 필요 ✅ 일부 완료
+- **스킬 생성 중복**: skill-creator, skill-developer (유사 기능) - 검토 필요
+- ~~**AI Loop 중복**: codex-claude-loop, qwen-claude-loop (동일 패턴)~~ ✅ **해결됨** - dual-ai-loop으로 통합
 - **훅 중복**: skill-activation-prompt.ts, skill-activation-prompt-with-notification.ts
 
 ### 3. 워크플로우 연결 부족
@@ -198,9 +218,9 @@
 }
 ```
 
-#### 1.2 중복 제거
-- **통합**: skill-creator + skill-developer → skill-developer (하나로 통합)
-- **선택**: codex-claude-loop vs qwen-claude-loop (주로 사용하는 것 1개만 유지)
+#### 1.2 중복 제거 ✅ 부분 완료
+- **통합**: skill-creator + skill-developer → skill-developer (하나로 통합) - 검토 필요
+- ~~**선택**: codex-claude-loop vs qwen-claude-loop (주로 사용하는 것 1개만 유지)~~ ✅ **완료** - dual-ai-loop으로 통합됨 (2025-11-17)
 - **훅 정리**: skill-activation-prompt.ts만 유지 (notification 버전 제거)
 
 ### Phase 2: 워크플로우 자동화 (우선순위: 높음)
@@ -285,11 +305,11 @@ allowed-tools: Task
 # 총 12개 스킬 추가 등록
 ```
 
-### Step 2: 중복 제거
+### Step 2: 중복 제거 ✅ 완료 (2025-11-17)
 ```bash
-# skill-developer로 통합
-# qwen-claude-loop 제거 (또는 codex-claude-loop 제거)
-# skill-activation-prompt-with-notification.ts 제거
+# ✅ dual-ai-loop으로 통합 완료
+# ✅ codex-claude-loop, qwen-claude-loop, codex 스킬 제거됨
+# skill-activation-prompt-with-notification.ts 제거 - 검토 필요
 ```
 
 ### Step 3: 통합 워크플로우 커맨드 생성
@@ -348,8 +368,10 @@ allowed-tools: Task
 - [Slash Commands](https://docs.claude.com/en/docs/claude-code/slash-commands)
 
 ### 내부 문서
-- `skills/README.md`: 스킬 개요
-- `hooks/temp/SUMMARY.md`: 훅 요약
+- `docs/reports/`: 검증 및 분석 리포트
+- `docs/agent-patterns/`: 에이전트 패턴 문서
+- `docs/review/`: 스킬별 리뷰 보고서
+- `docs/skills-guide/`: 스킬 사용 가이드
 - 각 스킬 디렉토리의 `SKILL.md`
 
 ---
@@ -373,6 +395,20 @@ allowed-tools: Task
 
 ---
 
-**Last Updated**: 2025-11-14
-**Version**: 1.0.0
+**Last Updated**: 2025-11-17
+**Version**: 1.1.0
 **Maintainer**: @inchan
+
+---
+
+## 📝 변경 이력
+
+### v1.1.0 (2025-11-17)
+- ✅ AI 연동 스킬 통합: codex-claude-loop, qwen-claude-loop, codex → dual-ai-loop
+- ✅ 문서 구조 개편: 루트 파일을 docs/ 하위로 이동
+- ✅ 스킬 총 개수 업데이트: 19개 → 22개
+- ✅ 새로운 스킬 추가: agent-workflow-advisor, agent-workflow-orchestrator, cli-updater, subagent-creator
+- ✅ CLI 어댑터 모듈화 (skills/cli-adapters/)
+
+### v1.0.0 (2025-11-14)
+- 초기 통합 관리 가이드 작성
