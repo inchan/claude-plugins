@@ -37,10 +37,8 @@
 - [skill-creator](./skill-creator.md) ⚠️
 - [skill-developer](./skill-developer.md) ✅
 
-### AI 연동 (3개)
-- [codex-claude-loop](./codex-claude-loop.md) ❌
-- [qwen-claude-loop](./qwen-claude-loop.md) ❌
-- [codex](./codex.md) ❌
+### AI 연동 (1개)
+- dual-ai-loop (신규 - 통합 스킬, codex/qwen 검증됨) ✅
 
 ### 프롬프트 도구 (2개)
 - [meta-prompt-generator](./meta-prompt-generator.md) ✅
