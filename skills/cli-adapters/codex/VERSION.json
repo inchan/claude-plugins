@@ -1,43 +1,34 @@
 {
   "cli_name": "codex",
   "display_name": "OpenAI Codex CLI",
-  "current_supported_version": "2.0.0",
-  "minimum_version": "1.5.0",
-  "last_checked": "2025-11-16",
-  "last_updated": "2025-11-16",
+  "current_supported_version": "0.58.0",
+  "minimum_version": "0.50.0",
+  "last_checked": "2025-11-17",
+  "last_updated": "2025-11-17",
+  "verified": true,
   "sources": {
-    "official_docs": "https://openai.com/docs/codex-cli",
-    "github_repo": "https://github.com/openai/codex-cli",
-    "changelog": "https://github.com/openai/codex-cli/releases",
-    "npm_package": "https://www.npmjs.com/package/@openai/codex-cli",
-    "api_reference": "https://platform.openai.com/docs/api-reference"
+    "github_repo": "https://github.com/openai/codex",
+    "changelog": "https://github.com/openai/codex/releases",
+    "npm_package": "https://www.npmjs.com/package/@openai/codex"
   },
   "install_methods": {
-    "npm": "npm install -g @openai/codex-cli",
-    "homebrew": "brew install codex",
-    "winget": "winget install OpenAI.Codex"
+    "npm": "npm install -g @openai/codex",
+    "homebrew": "brew install --cask codex"
   },
   "verification": {
     "install_check": "which codex || command -v codex",
     "version_command": "codex --version",
-    "version_pattern": "codex version (\\d+\\.\\d+\\.\\d+)",
     "health_check": "codex --help"
   },
   "requirements": {
-    "api_key_env": "OPENAI_API_KEY",
+    "authentication": "ChatGPT account (Plus, Pro, Team, Edu, Enterprise) OR API key",
     "min_node_version": "16.0.0",
     "os": ["linux", "macos", "windows"]
   },
-  "breaking_changes": {
-    "2.0.0": [
-      "sandbox 모드 필수화",
-      "exec 명령어 구문 변경",
-      "resume 옵션 추가"
-    ],
-    "1.5.0": [
-      "config 명령어 추가",
-      "model 선택 옵션 변경"
-    ]
+  "notes": {
+    "auth_method": "ChatGPT 계정 로그인 권장, API 키도 지원",
+    "exec_mode": "codex exec (비대화형 모드)",
+    "interactive_mode": "codex (대화형 모드)"
   },
   "update_check_interval_days": 7,
   "auto_update_enabled": false

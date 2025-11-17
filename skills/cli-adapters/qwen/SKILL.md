@@ -5,24 +5,50 @@ description: Alibaba Qwen CLI 어댑터. dual-ai-loop에서 Qwen 모델을 사�
 
 # Qwen CLI Adapter
 
+## 검증 상태
+
+❌ **미검증** (2025-11-17)
+- PyPI에서 `qwen-cli` 패키지 **존재하지 않음** (직접 확인됨)
+- GitHub에서 `alibaba/qwen-cli` 저장소 **확인되지 않음**
+- 아래 정보는 **추측 기반이며 실제 작동하지 않을 수 있습니다**
+
+⚠️ **경고**: 이 CLI가 실제로 존재하는지 확인되지 않았습니다.
+
+## 검증된 대안
+
+Qwen 모델을 사용하려면 다음을 고려하세요:
+
+```bash
+# Ollama (권장 - 실제로 작동함)
+ollama pull qwen2.5-coder
+ollama run qwen2.5-coder "프롬프트"
+
+# Hugging Face Transformers (Python 라이브러리)
+pip install transformers
+# from transformers import AutoModelForCausalLM
+
+# vLLM (로컬 서버)
+pip install vllm
+```
+
 ## 개요
 
 Alibaba Qwen CLI와의 통합을 위한 어댑터입니다.
 
-## 설치 확인
+## 설치 확인 (미검증)
 
 ```bash
 which qwen
 qwen --version
 ```
 
-## 설치 방법
+## 설치 방법 (⚠️ 미검증 - 실패 예상)
 
 ```bash
-# pip를 통한 설치
-pip install qwen-cli
+# ❌ 이 패키지는 PyPI에 존재하지 않습니다
+pip install qwen-cli  # ERROR: No matching distribution found
 
-# 또는 공식 저장소에서
+# ❌ 이 저장소는 확인되지 않았습니다
 git clone https://github.com/alibaba/qwen-cli
 cd qwen-cli && pip install .
 ```

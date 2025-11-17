@@ -1,18 +1,24 @@
 {
   "cli_name": "qwen",
   "display_name": "Alibaba Qwen CLI",
-  "current_supported_version": "1.0.0",
-  "minimum_version": "0.9.0",
-  "last_checked": "2025-11-16",
+  "current_supported_version": "UNKNOWN",
+  "minimum_version": "UNKNOWN",
+  "last_checked": "2025-11-17",
+  "verified": false,
+  "warning": "PyPI에서 qwen-cli 패키지를 찾을 수 없습니다. 실제 존재 여부가 확인되지 않았습니다.",
   "sources": {
-    "official_docs": "https://qwen.alibaba.com/docs/cli",
-    "github_repo": "https://github.com/alibaba/qwen-cli",
-    "changelog": "https://github.com/alibaba/qwen-cli/releases"
+    "official_docs": "UNVERIFIED - https://qwen.alibaba.com/docs/cli",
+    "github_repo": "UNVERIFIED - https://github.com/alibaba/qwen-cli",
+    "changelog": "UNVERIFIED"
+  },
+  "alternatives": {
+    "ollama": "ollama pull qwen2.5-coder && ollama run qwen2.5-coder",
+    "transformers": "pip install transformers",
+    "vllm": "pip install vllm"
   },
   "verification": {
     "install_check": "which qwen",
-    "version_command": "qwen --version",
-    "version_pattern": "qwen version (\\d+\\.\\d+\\.\\d+)"
+    "version_command": "qwen --version"
   },
   "requirements": {
     "api_key_env": "QWEN_API_KEY",

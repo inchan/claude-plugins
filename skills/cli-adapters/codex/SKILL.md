@@ -5,6 +5,13 @@ description: OpenAI Codex CLI 어댑터. dual-ai-loop의 기본 CLI로서 설치
 
 # Codex CLI Adapter
 
+## 검증 상태
+
+✅ **검증됨** (2025-11-17)
+- npm 패키지: @openai/codex (v0.58.0)
+- GitHub: https://github.com/openai/codex
+- OpenAI 공식 패키지 확인됨
+
 ## 개요
 
 OpenAI Codex CLI와의 통합을 위한 어댑터입니다. dual-ai-loop 스킬의 기본 CLI로 사용됩니다.
@@ -33,13 +40,11 @@ command -v codex
 
 ```bash
 codex --version
-# 또는
-codex -v
 ```
 
 **출력 예시:**
 ```
-codex version 2.0.0
+codex version 0.58.0
 ```
 
 ## 설치 방법
@@ -47,57 +52,74 @@ codex version 2.0.0
 ### macOS/Linux
 
 ```bash
-# npm을 통한 설치
-npm install -g @openai/codex-cli
+# npm을 통한 설치 (권장)
+npm install -g @openai/codex
 
 # 또는 homebrew (macOS)
-brew install codex
+brew install --cask codex
 ```
 
 ### Windows
 
 ```bash
 # npm을 통한 설치
-npm install -g @openai/codex-cli
-
-# 또는 winget
-winget install OpenAI.Codex
+npm install -g @openai/codex
 ```
 
-### 설치 후 설정
+### 설치 후 인증
+
+**권장: ChatGPT 계정 로그인**
 
 ```bash
-# API 키 설정
-export OPENAI_API_KEY="your-api-key"
+# codex 실행 후 "Sign in with ChatGPT" 선택
+codex
 
-# 또는 설정 파일에 저장
-codex config set api_key "your-api-key"
+# 지원되는 플랜: Plus, Pro, Team, Edu, Enterprise
 ```
+
+**대안: API 키 사용**
+
+```bash
+# 환경변수로 설정
+export OPENAI_API_KEY="your-api-key"
+```
+
+⚠️ **참고**: ChatGPT 계정 로그인이 권장됩니다. API 키 사용 시 추가 설정이 필요할 수 있습니다.
 
 ## 명령어 패턴
 
 ### 기본 실행
 
 ```bash
-# stdin으로 프롬프트 전달
-echo "프롬프트 내용" | codex exec
+# 대화형 모드 (기본)
+codex
 
-# 파일로 프롬프트 전달
-codex exec < prompt.txt
-
-# 직접 인자로 전달
-codex exec "프롬프트 내용"
+# 비대화형 모드
+codex exec
 ```
 
-### 주요 옵션
+### 검증된 옵션
 
-| 옵션 | 설명 | 예시 |
-|------|------|------|
-| `-m, --model` | 모델 선택 | `codex exec -m gpt-4` |
-| `--sandbox` | 샌드박스 모드 | `--sandbox read-only` |
-| `--full-auto` | 자동 실행 모드 | `codex exec --full-auto` |
-| `-C, --cd` | 작업 디렉토리 | `codex exec -C /path` |
-| `--config` | 설정 옵션 | `--config key=value` |
+| 모드 | 설명 |
+|------|------|
+| `codex` | 대화형 모드, TUI 인터페이스 |
+| `codex exec` | 비대화형 모드, 자동 실행 |
+
+### 주요 기능 (공식 문서 기준)
+
+- **ChatGPT 인증**: Plus, Pro, Team, Edu, Enterprise 플랜 지원
+- **MCP 서버 지원**: Model Context Protocol 서버 구성 가능
+- **커스텀 프롬프트**: 사용자 정의 프롬프트 지원
+- **AGENTS.md**: 메모리 기능 지원
+- **샌드박스/승인**: 실행 전 검토 기능
+
+⚠️ **주의**: 아래 옵션들은 공식 문서에서 직접 확인되지 않았습니다. 실제 사용 전 `codex --help`로 확인하세요.
+
+| 옵션 (미검증) | 추정 설명 |
+|---------------|-----------|
+| `--sandbox` | 샌드박스 모드 |
+| `--full-auto` | 자동 실행 모드 |
+| `-m, --model` | 모델 선택 |
 
 ### 샌드박스 모드
 

@@ -1,18 +1,19 @@
 {
   "cli_name": "rovo-dev",
   "display_name": "Atlassian Rovo Dev CLI",
-  "current_supported_version": "1.0.0",
-  "minimum_version": "0.8.0",
-  "last_checked": "2025-11-16",
+  "current_supported_version": "UNKNOWN",
+  "minimum_version": "UNKNOWN",
+  "last_checked": "2025-11-17",
+  "verified": false,
+  "warning": "이 CLI의 실제 존재 여부가 확인되지 않았습니다. Atlassian 공식 문서를 확인하세요.",
   "sources": {
-    "official_docs": "https://developer.atlassian.com/rovo/dev-cli",
-    "marketplace": "https://marketplace.atlassian.com/rovo",
-    "changelog": "https://developer.atlassian.com/rovo/changelog"
+    "official_docs": "UNVERIFIED - https://developer.atlassian.com/rovo/dev-cli",
+    "marketplace": "UNVERIFIED - https://marketplace.atlassian.com/rovo",
+    "changelog": "UNVERIFIED"
   },
   "verification": {
     "install_check": "which rovo-dev",
-    "version_command": "rovo-dev --version",
-    "version_pattern": "rovo-dev (\\d+\\.\\d+\\.\\d+)"
+    "version_command": "rovo-dev --version"
   },
   "requirements": {
     "atlassian_cloud": true,

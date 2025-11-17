@@ -5,6 +5,15 @@ description: Atlassian Rovo Dev CLI 어댑터. Jira/Confluence 통합 AI 개발 
 
 # Atlassian Rovo Dev CLI Adapter
 
+## 검증 상태
+
+❌ **미검증** (2025-11-17)
+- `rovo-dev` CLI의 실제 존재 여부가 확인되지 않았습니다
+- Atlassian 공식 문서에서 이 CLI를 찾을 수 없습니다
+- 아래 정보는 **추측 기반이며 실제 작동하지 않을 수 있습니다**
+
+⚠️ **경고**: 사용 전에 Atlassian 공식 문서를 직접 확인하세요.
+
 ## 개요
 
 Atlassian Rovo Dev CLI와의 통합을 위한 어댑터입니다. Jira, Confluence와 연동된 AI 개발 지원 도구입니다.

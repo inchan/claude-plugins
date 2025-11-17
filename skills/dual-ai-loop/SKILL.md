@@ -5,14 +5,31 @@ description: 외부 AI CLI(codex, qwen, copilot, rovo-dev, aider)와 Claude의 �
 
 # Dual-AI Engineering Loop
 
+## ⚠️ 중요 경고
+
+**검증된 CLI** (2025-11-17):
+- ✅ **codex** (기본값) - @openai/codex v0.58.0 (npm 확인됨)
+- ✅ **aider** - aider-chat v0.86.1 (PyPI 확인됨)
+
+**미검증 CLI**:
+- ⚠️ **copilot** - 존재하나 직접 테스트 안됨
+- ❌ **qwen** - PyPI에서 찾을 수 없음, 대안으로 Ollama 사용 권장
+- ❌ **rovo-dev** - 존재 여부 불확실
+
+**실제 동작 방식**:
+- 이 스킬은 "자동화된 시스템"이 아닙니다
+- Claude가 수동으로 Bash 도구를 호출하여 CLI를 실행합니다
+- "자동 버전 체크"는 Claude가 수동으로 확인하는 것입니다
+- 사용자의 직접적인 개입이 필요합니다
+
 ## 개요
 
 두 AI의 강점을 결합하는 엔지니어링 루프입니다. Claude Code와 외부 AI CLI 도구가 협업하여 고품질 코드를 생성합니다.
 
 **핵심 기능:**
-- 외부 AI CLI 도구 선택 (codex, qwen, copilot, rovo-dev, aider)
+- 외부 AI CLI 도구 선택 (검증된 것: codex, aider)
 - 역할 교체 가능 (구현자/리뷰어)
-- 자동 버전 체크 및 업데이트 안내
+- 버전 체크 안내 (수동)
 - 반복적 개선 루프
 
 ## 시작하기
@@ -24,13 +41,13 @@ description: 외부 AI CLI(codex, qwen, copilot, rovo-dev, aider)와 Claude의 �
 ```
 어떤 AI CLI 도구를 사용하시겠습니까?
 
-1. codex (기본값) - OpenAI Codex CLI
-2. qwen - Alibaba Qwen CLI
-3. copilot - GitHub Copilot CLI
-4. rovo-dev - Atlassian Rovo Dev CLI
-5. aider - Aider CLI
+1. codex (기본값) - ✅ OpenAI Codex CLI (검증됨)
+2. aider - ✅ Aider CLI (검증됨)
+3. copilot - ⚠️ GitHub Copilot CLI (부분 검증)
+4. qwen - ❌ Alibaba Qwen CLI (미검증 - 존재 불확실)
+5. rovo-dev - ❌ Atlassian Rovo Dev CLI (미검증)
 
-선택하지 않으면 codex를 사용합니다.
+권장: codex 또는 aider (검증된 CLI)
 ```
 
 ### Step 2: CLI 상태 확인

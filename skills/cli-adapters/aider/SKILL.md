@@ -5,6 +5,13 @@ description: Aider CLI 어댑터. Git 통합 AI 페어 프로그래밍 도구.
 
 # Aider CLI Adapter
 
+## 검증 상태
+
+✅ **검증됨** (2025-11-17)
+- PyPI 패키지: aider-chat (v0.86.1)
+- GitHub: https://github.com/paul-gauthier/aider
+- 163명 기여자, 93개 릴리스
+
 ## 개요
 
 Aider CLI와의 통합을 위한 어댑터입니다. Git 저장소와 통합된 AI 페어 프로그래밍 도구입니다.
@@ -19,14 +26,27 @@ aider --version
 ## 설치 방법
 
 ```bash
-# pip를 통한 설치
+# 권장 방법 (공식 문서 기준)
+python -m pip install aider-install
+aider-install
+
+# 또는 직접 설치
 pip install aider-chat
 
 # 또는 pipx (격리 환경)
 pipx install aider-chat
 ```
 
-### 설정
+### 설정 (검증된 형식)
+
+```bash
+# API 키를 인라인으로 지정 (공식 문서 기준)
+aider --model deepseek --api-key deepseek=<your-key>
+aider --model sonnet --api-key anthropic=<your-key>
+aider --model o3-mini --api-key openai=<your-key>
+```
+
+### 환경변수 설정 (대안)
 
 ```bash
 # OpenAI API 키
@@ -34,14 +54,30 @@ export OPENAI_API_KEY="your-key"
 
 # 또는 Anthropic API 키
 export ANTHROPIC_API_KEY="your-key"
+
+# 또는 DeepSeek API 키
+export DEEPSEEK_API_KEY="your-key"
 ```
 
-## 명령어 패턴
+## 명령어 패턴 (검증됨)
 
-### 메시지 모드
+### 기본 형식
 
 ```bash
-aider --message "구현 요청"
+aider --model [모델명] --api-key [제공자]=[키값]
+```
+
+### 모델 선택 예시
+
+```bash
+# DeepSeek
+aider --model deepseek --api-key deepseek=<key>
+
+# Claude 3.7 Sonnet
+aider --model sonnet --api-key anthropic=<key>
+
+# OpenAI o3-mini
+aider --model o3-mini --api-key openai=<key>
 ```
 
 ### 파일 지정
@@ -54,12 +90,6 @@ aider src/main.py --message "이 파일 수정"
 
 ```bash
 aider --auto-commits --message "기능 추가"
-```
-
-### 모델 선택
-
-```bash
-aider --model gpt-4 --message "작업"
 ```
 
 ## dual-ai-loop 연동
@@ -93,8 +123,8 @@ aider --message "코드 리뷰:
 
 ## 버전 정보
 
-**지원 버전**: 0.50.0+
-**최소 버전**: 0.40.0
+**최신 버전**: 0.86.1 (PyPI 확인됨)
+**최소 버전**: 0.50.0
 
 ## 제한사항
 

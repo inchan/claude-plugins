@@ -5,6 +5,13 @@ description: GitHub Copilot CLI 어댑터. gh copilot extension을 사용한 코
 
 # GitHub Copilot CLI Adapter
 
+## 검증 상태
+
+⚠️ **부분 검증** (2025-11-17)
+- GitHub Copilot CLI는 실제로 존재하는 것으로 알려져 있습니다
+- 그러나 이 환경에서 직접 테스트되지 않았습니다
+- 명령어 구문은 공식 문서를 참조하세요: https://docs.github.com/en/copilot/github-copilot-in-the-cli
+
 ## 개요
 
 GitHub Copilot CLI (gh copilot)와의 통합을 위한 어댑터입니다.
