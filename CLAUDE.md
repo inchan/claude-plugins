@@ -1,7 +1,7 @@
 # Claude Code Skills & Hooks - 통합 관리 가이드
 
 **최종 업데이트**: 2025-11-17
-**버전**: 1.1.0
+**버전**: 1.2.0
 
 ---
 
@@ -72,7 +72,7 @@
   - 5개 CLI 지원 (codex ✅, qwen ✅, copilot, rovo-dev, aider)
   - codex와 qwen은 실제 테스트 검증됨
   - 역할 교체 가능 (구현자/리뷰어)
-  - CLI 어댑터 모듈화 (skills/cli-adapters/)
+  - CLI 어댑터 모듈화 (.claude/skills/cli-adapters/)
   - cli-updater로 자동 버전 관리
 
 #### 6. 프롬프트 도구 (2개)
@@ -87,10 +87,13 @@
 
 ### 훅 현황 (활성화 3개)
 
+**위치**: `.claude/hooks/`
+**설정 파일**: `.claude/settings.local.json`
+
 #### UserPromptSubmit 훅 (2개)
 1. **skill-activation-prompt.ts**:
    - 사용자 프롬프트 분석 후 적합한 스킬 자동 제안
-   - skill-rules.json 기반 키워드/인텐트 매칭
+   - `.claude/skills/skill-rules.json` 기반 키워드/인텐트 매칭
    - 우선순위별 스킬 추천 (Critical → High → Medium → Low)
 
 2. **meta-prompt-logger.js**:
@@ -396,19 +399,26 @@ allowed-tools: Task
 ---
 
 **Last Updated**: 2025-11-17
-**Version**: 1.1.0
+**Version**: 1.2.0
 **Maintainer**: @inchan
 
 ---
 
 ## 📝 변경 이력
 
+### v1.2.0 (2025-11-17)
+- ✅ **디렉토리 구조 재편**: Claude Code 표준 구조로 마이그레이션
+  - `skills/` → `.claude/skills/`
+  - `hooks/` → `.claude/hooks/`
+  - `.claude/commands/` 디렉토리 생성
+- ✅ **훅 설정 등록**: `.claude/settings.local.json`에 훅 구성 추가
+
 ### v1.1.0 (2025-11-17)
 - ✅ AI 연동 스킬 통합: codex-claude-loop, qwen-claude-loop, codex → dual-ai-loop
 - ✅ 문서 구조 개편: 루트 파일을 docs/ 하위로 이동
 - ✅ 스킬 총 개수 업데이트: 19개 → 22개
 - ✅ 새로운 스킬 추가: agent-workflow-advisor, agent-workflow-orchestrator, cli-updater, subagent-creator
-- ✅ CLI 어댑터 모듈화 (skills/cli-adapters/)
+- ✅ CLI 어댑터 모듈화 (.claude/skills/cli-adapters/)
 
 ### v1.0.0 (2025-11-14)
 - 초기 통합 관리 가이드 작성
