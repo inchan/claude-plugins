@@ -24,6 +24,41 @@ Invoke this skill when:
 - "I need to add domain expertise for GraphQL"
 - "What's the best way to automate deployment validation?"
 
+## Official Best Practices (Anthropic)
+
+### Key Principles from Official Documentation
+
+1. **"Think from Claude's Perspective"** - The `name` and `description` are critical. They determine when Claude uses the tool. Pay special attention to these fields.
+
+2. **Progressive Disclosure** - Skills use a three-level loading system:
+   - Level 1: Metadata (name + description) - Always in context (~100 words)
+   - Level 2: SKILL.md body - When skill triggers (<5k words)
+   - Level 3: Bundled resources - As needed (unlimited via scripts)
+
+3. **"Iterate with Claude"** - Ask Claude to capture successful approaches and common mistakes into reusable context and code.
+
+4. **Specificity Matters** - "Claude Code's success rate improves significantly with more specific instructions, especially on first attempts."
+
+5. **description Required for Commands** - Commands need `description` frontmatter to work with the SlashCommand tool.
+
+6. **Scripts for Determinism** - Use scripts for tasks where "programming is more reliable than token generation" - sorting, calculations, file operations.
+
+### Plugin Consideration (New in 2025)
+
+**Plugins** package multiple customizations together:
+- Slash commands
+- Subagents
+- MCP servers
+- Hooks
+
+Consider creating a **Plugin** when:
+- You have multiple related tools that work together
+- You want to share a complete workflow with a team
+- You need to toggle capabilities on/off
+- You're packaging for marketplace distribution
+
+Use `/plugin` command to install and manage plugins.
+
 ## Tool Type Decision Matrix
 
 Use this matrix to determine the optimal tool type:
@@ -37,6 +72,7 @@ Shortcut for repeated prompts/workflows  → Slash Command
 Specialized domain knowledge/procedures  → Skill
 Focused AI agent for specific tasks      → Subagent
 Automated response to events             → Hook
+Package multiple tools together          → Plugin
 ```
 
 ### Detailed Decision Criteria
@@ -195,16 +231,16 @@ Provide the user with:
 
 ## Comparison Table
 
-| Aspect | Command | Skill | Subagent | Hook |
-|--------|---------|-------|----------|------|
-| **Trigger** | User types `/name` | Claude decides | User/Command invokes | System event |
-| **Purpose** | Prompt shortcut | Domain expertise | Focused agent | Event automation |
-| **Location** | `.claude/commands/` | `.claude/skills/` | `.claude/agents/` | `.claude/hooks/` |
-| **Format** | Single .md file | Directory + SKILL.md | Single .md file | Shell script |
-| **Tool access** | Configurable | Full (by default) | Configurable | N/A (runs external) |
-| **Arguments** | Yes ($1, $ARGUMENTS) | No | Via Task prompt | JSON input |
-| **Team sharing** | Version controlled | Version controlled | Version controlled | Version controlled |
-| **Use case** | "Format my code" | "Query BigQuery" | "Review for security" | "Lint after edit" |
+| Aspect | Command | Skill | Subagent | Hook | Plugin |
+|--------|---------|-------|----------|------|--------|
+| **Trigger** | User types `/name` | Claude decides | User/Command invokes | System event | `/plugin` |
+| **Purpose** | Prompt shortcut | Domain expertise | Focused agent | Event automation | Bundle tools |
+| **Location** | `.claude/commands/` | `.claude/skills/` | `.claude/agents/` | `.claude/hooks/` | Via registry |
+| **Format** | Single .md file | Directory + SKILL.md | Single .md file | Shell script | Package |
+| **Tool access** | Configurable | Full (by default) | Configurable | N/A (runs external) | Varies |
+| **Arguments** | Yes ($1, $ARGUMENTS) | No | Via Task prompt | JSON input | N/A |
+| **Team sharing** | Version controlled | Version controlled | Version controlled | Version controlled | Marketplace |
+| **Use case** | "Format my code" | "Query BigQuery" | "Review for security" | "Lint after edit" | "Complete toolset" |
 
 ## Common Patterns and Anti-Patterns
 
@@ -441,10 +477,13 @@ Tool created & validated
 - **hooks-creator** - Hook script creation
 
 ### Official Documentation
-- [Slash Commands](https://docs.claude.com/en/docs/claude-code/slash-commands)
-- [Skills](https://docs.claude.com/en/docs/claude-code/skills)
-- [Subagents](https://docs.claude.com/en/docs/claude-code/sub-agents)
-- [Hooks](https://docs.claude.com/en/docs/claude-code/hooks)
+- [Slash Commands](https://code.claude.com/docs/en/slash-commands)
+- [Skills](https://code.claude.com/docs/en/skills)
+- [Subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents)
+- [Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks)
+- [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices)
+- [Agent Skills Engineering Blog](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
+- [Plugins](https://claude.com/blog/claude-code-plugins)
 
 ## Troubleshooting
 
