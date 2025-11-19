@@ -1,0 +1,27 @@
+{
+  "name": "inchan-cc-skills",
+  "owner": {
+    "name": "inchan",
+    "email": "",
+    "url": "https://github.com/inchan"
+  },
+  "description": "Claude Code skills and hooks collection for enhanced development workflows",
+  "plugins": [
+    {
+      "name": "cc-skills",
+      "source": "./",
+      "description": "Complete skills collection including workflow management, development guidelines, and automation tools",
+      "version": "1.2.0",
+      "author": {
+        "name": "inchan"
+      },
+      "keywords": [
+        "skills",
+        "workflows",
+        "agents",
+        "hooks",
+        "productivity"
+      ]
+    }
+  ]
+}

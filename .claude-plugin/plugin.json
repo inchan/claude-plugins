@@ -1,0 +1,26 @@
+{
+  "name": "cc-skills",
+  "version": "1.2.0",
+  "description": "Claude Code skills and hooks collection - extending Claude Code with specialized workflows, agents, and development guidelines",
+  "author": {
+    "name": "inchan",
+    "url": "https://github.com/inchan"
+  },
+  "homepage": "https://github.com/inchan/cc-skills",
+  "repository": "https://github.com/inchan/cc-skills",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "workflows",
+    "agents",
+    "hooks",
+    "productivity",
+    "automation",
+    "development-guidelines",
+    "task-orchestration"
+  ],
+  "commands": "./.claude/commands/",
+  "agents": "./agents/",
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": "./.mcp.json"
+}
