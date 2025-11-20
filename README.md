@@ -96,6 +96,8 @@ flowchart TB
 
 ## 설치
 
+### 플러그인 설치 (스킬, 커맨드, 에이전트)
+
 ```bash
 # 마켓플레이스 추가
 /plugin marketplace add inchan/cc-skills
@@ -104,6 +106,29 @@ flowchart TB
 /plugin install cc-skills@inchan-cc-skills
 /plugin enable cc-skills@inchan-cc-skills
 ```
+
+### 훅 설치 (별도 설치 필요)
+
+**⚠️ 중요**: 훅은 플러그인에 포함되지 않으므로 별도 설치가 필요합니다.
+
+```bash
+# 자동 설치 (권장)
+node scripts/install-hooks.js
+
+# 자동 확인 모드
+node scripts/install-hooks.js --yes
+
+# 시뮬레이션
+node scripts/install-hooks.js --dry-run
+```
+
+설치 스크립트는 다음 작업을 자동으로 수행합니다:
+- 훅 파일을 `~/.claude/hooks/`로 복사
+- 실행 권한 설정
+- `~/.claude/settings.json` 업데이트
+- 의존성 설치
+
+자세한 내용은 [hooks/README.md](hooks/README.md)를 참조하세요.
 
 ---
 

@@ -1,8 +1,45 @@
-# Claude Code Hook - Interactive Lint & Translate
+# Claude Code Hooks Collection
 
 ## 개요
 
+Claude Code용 훅 모음집입니다. 프롬프트 개선, 코드 변경 추적, 자동 린트/번역 등의 기능을 제공합니다.
+
+## 빠른 설치
+
+```bash
+# 훅을 글로벌 환경(~/.claude/)에 설치
+node scripts/install-hooks.js
+
+# 자동 확인 모드 (CI/CD용)
+node scripts/install-hooks.js --yes
+
+# 시뮬레이션 (실제 변경 없음)
+node scripts/install-hooks.js --dry-run
+```
+
+설치 후 Claude Code를 재시작하세요.
+
+## 포함된 훅
+
+### 1. 🎯 Skill Activation Prompt (UserPromptSubmit)
+사용자 프롬프트를 분석하여 적절한 스킬을 자동으로 제안합니다.
+
+**파일**: `skill-activation-prompt.ts`
+
+### 2. 📝 Meta Prompt Logger (UserPromptSubmit)
+프롬프트 로깅 및 분석 기능을 제공합니다.
+
+**파일**: `meta-prompt-logger.js`
+
+### 3. 📊 Post Tool Use Tracker (PostToolUse)
+Edit/Write 도구 사용 후 변경 사항을 추적합니다.
+
+**파일**: `post-tool-use-tracker.sh`
+
+### 4. 🔄 Interactive Lint & Translate (Stop)
 Claude Code 사용 종료 시 실행되는 대화형 훅입니다. 변경된 파일에 대해 ESLint, Stylelint, i18n 업데이트 작업을 사용자가 선택하여 실행할 수 있습니다.
+
+**파일**: `stop-hook-lint-and-translate.sh`
 
 ## 주요 기능
 
