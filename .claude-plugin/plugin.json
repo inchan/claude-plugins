@@ -23,6 +23,5 @@
     "./agents/architect.md",
     "./agents/code-reviewer.md",
     "./agents/workflow-orchestrator.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
