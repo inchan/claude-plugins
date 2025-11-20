@@ -27,8 +27,8 @@ const colors = {
   cyan: '\x1b[36m'
 };
 
-// 소스 경로 (현재 프로젝트의 .claude 폴더)
-const SOURCE_DIR = path.join(__dirname, '..', '.claude');
+// 소스 경로 (플러그인 루트 디렉토리)
+const SOURCE_DIR = path.join(__dirname, '..');
 
 // 설치 설정
 const config = {

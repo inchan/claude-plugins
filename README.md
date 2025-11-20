@@ -333,15 +333,22 @@ node scripts/install-hooks.js --dry-run
 ```
 cc-skills/
 ├── .claude-plugin/       # 플러그인 메타데이터
-│   ├── plugin.json
-│   └── marketplace.json
-├── .claude/
-│   ├── skills/           # 스킬 컬렉션 (23개)
-│   ├── commands/         # 슬래시 커맨드
-│   └── hooks/            # 원본 훅 스크립트
+│   ├── plugin.json       # 플러그인 매니페스트
+│   └── marketplace.json  # 마켓플레이스 설정
+├── skills/               # 스킬 컬렉션 (23개)
+│   ├── skill-rules.json  # 스킬 자동 활성화 규칙
+│   └── */                # 개별 스킬 디렉토리
+├── commands/             # 슬래시 커맨드
+├── hooks/                # 훅 스크립트 및 설정
+│   ├── hooks.json        # 훅 설정
+│   └── *.{ts,js,sh}      # 훅 스크립트
 ├── agents/               # 서브에이전트 (3개)
-├── hooks/                # 플러그인 훅 설정
-└── scripts/              # 컴파일된 훅 스크립트
+├── scripts/              # 유틸리티 스크립트
+│   ├── install-skills.js # 스킬 설치 스크립트
+│   └── install-hooks.js  # 훅 설치 스크립트
+├── settings.local.json   # 로컬 설정 및 권한
+├── .claude/              # 레거시 (settings.json만 포함)
+└── docs/                 # 문서
 ```
 
 ## 요구사항

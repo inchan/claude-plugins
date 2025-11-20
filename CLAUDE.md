@@ -514,12 +514,20 @@ allowed-tools: Task
 ---
 
 **Last Updated**: 2025-11-20
-**Version**: 1.4.0
+**Version**: 1.4.1
 **Maintainer**: @inchan
 
 ---
 
 ## 📝 변경 이력
+
+### v1.4.1 (2025-11-20)
+- ✅ **install-skills.js 업데이트**: 플러그인 구조 지원
+  - SOURCE_DIR을 `.claude`에서 루트 디렉토리로 변경
+  - 루트 레벨의 `skills/`, `commands/`, `hooks/`, `scripts/`를 소스로 사용
+- ✅ **문서 업데이트**:
+  - README.md 디렉토리 구조 섹션 명확화
+  - 실제 플러그인 구조와 동기화
 
 ### v1.4.0 (2025-11-20)
 - ✅ **플러그인 구조 수정**: Claude Code 플러그인 표준 구조로 완전 마이그레이션
