@@ -11,7 +11,7 @@
 | Skill | Artifact | Location | Templates | Init Script |
 |-------|----------|----------|-----------|------------|
 | **command-creator** | `.md` file | `.claude/commands/` | 6 patterns | init_command.py |
-| **skill-creator** | Directory | `.claude/skills/` | 4 structures | init_skill.py |
+| **skill-developer** | Directory | `.claude/skills/` | 4 structures | init_skill.py |
 | **hooks-creator** | `.sh` script | `.claude/hooks/` | 9 events | init_hook.py |
 | **subagent-creator** | `.md` file | `.claude/agents/` | 7 roles | init_subagent.py |
 
@@ -62,11 +62,11 @@ All 4 skills follow **identical initialization pattern**:
 - **Templates**: `/home/user/cc-skills/.claude/skills/command-creator/assets/templates/`
 - **References**: `/home/user/cc-skills/.claude/skills/command-creator/references/`
 
-### Skill Creator
-- **SKILL.md**: `/home/user/cc-skills/.claude/skills/skill-creator/SKILL.md`
-- **Init Script**: `/home/user/cc-skills/.claude/skills/skill-creator/scripts/init_skill.py`
-- **Validation**: `/home/user/cc-skills/.claude/skills/skill-creator/scripts/quick_validate.py`
-- **Packaging**: `/home/user/cc-skills/.claude/skills/skill-creator/scripts/package_skill.py`
+### Skill Developer
+- **SKILL.md**: `/home/user/cc-skills/.claude/skills/skill-developer/SKILL.md`
+- **Init Script**: `/home/user/cc-skills/.claude/skills/skill-developer/scripts/init_skill.py`
+- **Validation**: `/home/user/cc-skills/.claude/skills/skill-developer/scripts/quick_validate.py`
+- **Packaging**: `/home/user/cc-skills/.claude/skills/skill-developer/scripts/package_skill.py`
 
 ### Hooks Creator
 - **SKILL.md**: `/home/user/cc-skills/.claude/skills/hooks-creator/SKILL.md`
@@ -213,9 +213,9 @@ Add to `.claude/skills/skill-rules.json`:
     "keywords": ["create command", "slash command"],
     "intentPatterns": ["(create|add).*?command"]
   },
-  "skill-creator": {
-    "keywords": ["create skill", "new skill"],
-    "intentPatterns": ["(create|add|build).*?skill"]
+  "skill-developer": {
+    "keywords": ["create skill", "new skill", "skill development"],
+    "intentPatterns": ["(create|add|build|develop).*?skill"]
   },
   "hooks-creator": {
     "keywords": ["create hook"],
@@ -286,7 +286,7 @@ unified-tool-generator/
 
 - **Full Analysis**: `/docs/analysis-tool-creators.md`
 - **Command Creator**: `.claude/skills/command-creator/SKILL.md`
-- **Skill Creator**: `.claude/skills/skill-creator/SKILL.md`
+- **Skill Developer**: `.claude/skills/skill-developer/SKILL.md`
 - **Hooks Creator**: `.claude/skills/hooks-creator/SKILL.md`
 - **Subagent Creator**: `.claude/skills/subagent-creator/SKILL.md`
 

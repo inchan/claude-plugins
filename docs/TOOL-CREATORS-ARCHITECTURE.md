@@ -32,7 +32,7 @@
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                   │
 │  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐    │
-│  │   command-     │  │  skill-creator │  │ hooks-creator  │    │
+│  │   command-     │  │  skill-developer │  │ hooks-creator  │    │
 │  │   creator      │  │                │  │                │    │
 │  └────────────────┘  └────────────────┘  └────────────────┘    │
 │           │                  │                    │              │
@@ -135,7 +135,7 @@
 │                                      └─ full-power
 │
 ├── skills/                            ← Skills (4 structural types)
-│   ├── skill-creator/                 ├─ workflow-based
+│   ├── skill-developer/                 ├─ workflow-based
 │   ├── command-creator/               ├─ task-based
 │   │   ├── SKILL.md                   ├─ reference/guidelines
 │   │   ├── scripts/                   └─ capabilities-based
@@ -501,7 +501,7 @@ Tool Creator Artifacts
 ```
 CURRENT STATE (4 Separate Tools)
 ┌─────────────────────────────────────┐
-│ command-creator  skill-creator      │
+│ command-creator  skill-developer      │
 ├─────────────────────────────────────┤
 │ init_command.py  init_skill.py      │
 │ validate_        package_            │

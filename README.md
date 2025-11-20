@@ -38,12 +38,12 @@ flowchart TB
 
     subgraph Quality["품질 관리"]
         IQE[iterative-quality-enhancer]
-        CF[code-feedback]
+        RR[reflection-review]
     end
 
     subgraph Creators["도구 생성"]
         CC[command-creator]
-        SC[skill-creator]
+        SD[skill-developer]
         SAC[subagent-creator]
         HC[hooks-creator]
     end
@@ -69,7 +69,7 @@ flowchart TB
     DTO --> Agents
 
     Agents --> IQE
-    IQE --> CF
+    IQE --> RR
 
     Creators --> |가이드 참조| Guidelines
     Agents --> |가이드 참조| Guidelines
@@ -90,7 +90,7 @@ flowchart TB
    복잡도별 워크플로우 선택 → 에이전트 실행
 
 4. **품질 검증**
-   iterative-quality-enhancer → code-feedback
+   iterative-quality-enhancer → reflection-review
 
 ---
 
@@ -149,8 +149,8 @@ flowchart TB
 - 품질 평가 및 최적화
 - 5개 차원 평가, 최대 5회 반복 개선
 
-**code-feedback**
-- 코드 결과 평가
+**reflection-review**
+- 코드 결과 평가 및 성찰 기반 리뷰
 - 6개 영역 점수화, P0/P1/P2 피드백
 
 </details>
@@ -183,9 +183,9 @@ flowchart TB
 - 슬래시 커맨드 생성
 - frontmatter + 프롬프트 .md 파일
 
-**skill-creator**
-- 스킬 생성
-- SKILL.md + 번들 리소스, 500줄 규칙
+**skill-developer**
+- 스킬 개발 종합 가이드
+- SKILL.md + 번들 리소스, 500줄 규칙, Anthropic 공식 표준
 
 **subagent-creator**
 - 서브에이전트 생성
@@ -212,28 +212,20 @@ flowchart TB
 </details>
 
 <details>
-<summary><b>프롬프트</b> (3개)</summary>
-
-**meta-prompt-generator**
-- 구조화된 커맨드 생성
-- 단계별 병렬 처리 가능한 프롬프트
+<summary><b>프롬프트</b> (2개)</summary>
 
 **meta-prompt-generator-v2**
-- 프롬프트 생성 v2
-- 개선된 알고리즘
+- 슬래시 커맨드용 프롬프트 생성
+- 구조화된 단계별 병렬 처리 가능한 프롬프트
 
 **prompt-enhancer**
-- 컨텍스트 기반 개선
+- 컨텍스트 기반 프롬프트 개선
 - 프로젝트 구조/패턴 분석
 
 </details>
 
 <details>
-<summary><b>기타</b> (3개)</summary>
-
-**skill-developer**
-- 스킬 개발 종합 가이드
-- Anthropic 공식 표준
+<summary><b>기타</b> (2개)</summary>
 
 **route-tester**
 - 인증 라우트 테스트
@@ -319,7 +311,7 @@ cc-skills/
 │   ├── plugin.json
 │   └── marketplace.json
 ├── .claude/
-│   ├── skills/           # 스킬 컬렉션 (27개)
+│   ├── skills/           # 스킬 컬렉션 (23개)
 │   ├── commands/         # 슬래시 커맨드
 │   └── hooks/            # 원본 훅 스크립트
 ├── agents/               # 서브에이전트 (3개)

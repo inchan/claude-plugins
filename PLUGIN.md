@@ -40,7 +40,7 @@ cd cc-skills
 
 ## 플러그인 구성 요소
 
-### 스킬 (27개)
+### 스킬 (23개)
 
 | 카테고리 | 스킬 | 설명 |
 |---------|------|------|
@@ -52,23 +52,21 @@ cd cc-skills
 | | dynamic-task-orchestrator | 복잡한 프로젝트 조율 |
 | | sequential-task-processor | 순차 작업 처리 |
 | **품질 관리** | iterative-quality-enhancer | 품질 평가 및 최적화 |
-| | code-feedback | 코드 결과 평가 및 피드백 |
+| | reflection-review | 코드 결과 평가 및 성찰 리뷰 |
 | **개발 가이드** | frontend-dev-guidelines | React/TypeScript/MUI v7 |
 | | backend-dev-guidelines | Node.js/Express/Prisma |
 | | error-tracking | Sentry v8 패턴 |
 | **도구 생성** | command-creator | 슬래시 커맨드 생성 |
 | | hooks-creator | 훅 생성 가이드 |
-| | skill-creator | 스킬 생성 가이드 |
+| | skill-developer | 스킬 개발 종합 가이드 |
 | | subagent-creator | 서브에이전트 생성 |
 | | skill-generator-tool | 도구 타입 추천 |
 | **AI 연동** | dual-ai-loop | 외부 AI CLI 협업 |
-| **프롬프트** | meta-prompt-generator | 구조화된 커맨드 생성 |
-| | meta-prompt-generator-v2 | 프롬프트 생성 v2 |
-| | prompt-enhancer | 컨텍스트 기반 개선 |
-| **기타** | skill-developer | 스킬 개발 가이드 |
-| | route-tester | 인증 라우트 테스트 |
-| | web-to-markdown | 웹페이지 변환 |
 | | cli-updater | CLI 버전 업데이트 |
+| **프롬프트** | meta-prompt-generator-v2 | 슬래시 커맨드용 프롬프트 생성 |
+| | prompt-enhancer | 컨텍스트 기반 개선 |
+| **기타** | route-tester | 인증 라우트 테스트 |
+| | web-to-markdown | 웹페이지 변환 |
 
 ### 에이전트 (3개)
 
@@ -124,7 +122,7 @@ cc-skills/
 │   └── marketplace.json      # 마켓플레이스 설정
 ├── .claude/                   # Claude Code 설정
 │   ├── commands/             # 슬래시 커맨드
-│   ├── skills/               # 스킬 컬렉션 (27개)
+│   ├── skills/               # 스킬 컬렉션 (23개)
 │   ├── hooks/                # 원본 훅 스크립트
 │   └── settings.local.json   # 프로젝트 훅 설정
 ├── agents/                    # 서브에이전트 정의

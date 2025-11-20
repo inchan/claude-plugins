@@ -12,7 +12,7 @@
 This analysis covers 4 specialized tool creator skills that enable creation and management of Claude Code artifacts:
 
 1. **command-creator** - Creates slash commands
-2. **skill-creator** - Creates skill packages
+2. **skill-developer** - Creates skill packages
 3. **hooks-creator** - Creates hook scripts
 4. **subagent-creator** - Creates subagents
 
@@ -182,7 +182,7 @@ Read: **analysis-tool-creators.md**
 1. Quick Reference: "Skills" section
 2. Main Analysis: "2. SKILL-CREATOR SKILL"
 3. Architecture: "File & Directory Structure"
-4. Actual skill: `.claude/skills/skill-creator/SKILL.md`
+4. Actual skill: `.claude/skills/skill-developer/SKILL.md`
 
 ### For Hook Creation
 1. Quick Reference: "Hooks" section
@@ -212,7 +212,7 @@ Read: **analysis-tool-creators.md**
 
 ### Skill Creator
 ```
-/home/user/cc-skills/.claude/skills/skill-creator/
+/home/user/cc-skills/.claude/skills/skill-developer/
 ├── SKILL.md
 ├── scripts/init_skill.py
 ├── scripts/quick_validate.py
@@ -252,7 +252,7 @@ Add these skills to `.claude/skills/skill-rules.json`:
     "keywords": ["create command"],
     "intentPatterns": ["(create|add).*?command"]
   },
-  "skill-creator": {
+  "skill-developer": {
     "keywords": ["create skill"],
     "intentPatterns": ["(create|add|build).*?skill"]
   },
@@ -333,7 +333,7 @@ Create unified-tool-generator with:
 
 ### Actual Skill Files
 - `/home/user/cc-skills/.claude/skills/command-creator/SKILL.md`
-- `/home/user/cc-skills/.claude/skills/skill-creator/SKILL.md`
+- `/home/user/cc-skills/.claude/skills/skill-developer/SKILL.md`
 - `/home/user/cc-skills/.claude/skills/hooks-creator/SKILL.md`
 - `/home/user/cc-skills/.claude/skills/subagent-creator/SKILL.md`
 
@@ -407,7 +407,7 @@ All documents use:
 
 **analysis-tool-creators.md**
 - [Command Creator Skill](#1-command-creator-skill)
-- [Skill Creator Skill](#2-skill-creator-skill)
+- [Skill Creator Skill](#2-skill-developer-skill)
 - [Hooks Creator Skill](#3-hooks-creator-skill)
 - [Subagent Creator Skill](#4-subagent-creator-skill)
 - [Shared Patterns](#shared-patterns--utilities)

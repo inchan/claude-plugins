@@ -10,7 +10,7 @@
 
 This analysis examines 4 specialized tool creator skills in the Claude Code skills system:
 1. **command-creator** - Slash command creation and management
-2. **skill-creator** - Skill package development and creation
+2. **skill-developer** - Skill package development and creation
 3. **hooks-creator** - Hook script generation and management
 4. **subagent-creator** - Subagent definition and customization
 
@@ -95,7 +95,7 @@ disable-model-invocation: false            # Prevent auto-execution
 
 ### File Structure
 ```
-.claude/skills/skill-creator/
+.claude/skills/skill-developer/
 ├── SKILL.md                          # Main documentation (210 lines)
 ├── scripts/
 │   ├── init_skill.py                # Skill initialization (304 lines)
@@ -535,7 +535,7 @@ Namespace support: .claude/commands/namespace/command.md
 
 ### Currently Registered in skill-rules.json
 - ❌ command-creator
-- ❌ skill-creator
+- ❌ skill-developer
 - ❌ hooks-creator
 - ❌ subagent-creator
 
@@ -549,7 +549,7 @@ Namespace support: .claude/commands/namespace/command.md
     "keywords": ["create command", "slash command", "new command", "/"],
     "intentPatterns": ["(create|add|make).*?(command|slash)", "(slash.*?)?command.*?(create|new)"]
   },
-  "skill-creator": {
+  "skill-developer": {
     "keywords": ["create skill", "new skill", "skill package"],
     "intentPatterns": ["(create|add|build).*?skill", "skill.*?package"]
   },

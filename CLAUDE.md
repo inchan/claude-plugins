@@ -10,7 +10,7 @@ This is a Claude Code skills and hooks collection - a toolkit for extending Clau
 
 **When users want to create any Claude Code tool (command, skill, subagent, hook):**
 1. Use the `skill-generator-tool` skill first to analyze intent and recommend the optimal tool type
-2. Route to specialized creators: `command-creator`, `skill-creator`, `subagent-creator`, `hooks-creator`
+2. Route to specialized creators: `command-creator`, `skill-developer`, `subagent-creator`, `hooks-creator`
 
 ## Core Architecture
 
@@ -39,7 +39,7 @@ hooks/hooks.json      # Plugin hook configuration
 
 1. **Tool Creators** (highest priority for tool creation tasks):
    - `skill-generator-tool` - Entry point, recommends optimal tool type
-   - `command-creator`, `skill-creator`, `subagent-creator`, `hooks-creator`
+   - `command-creator`, `skill-developer`, `subagent-creator`, `hooks-creator`
 
 2. **Workflow Management**:
    - `agent-workflow-manager`, `intelligent-task-router`, `parallel-task-executor`

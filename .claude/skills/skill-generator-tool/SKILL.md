@@ -219,7 +219,7 @@ Once tool type is determined, invoke the appropriate creator skill:
 | Tool Type | Creator Skill | Init Script |
 |-----------|--------------|-------------|
 | Command | command-creator | `init_command.py` |
-| Skill | skill-creator | `init_skill.py` |
+| Skill | skill-developer | `init_skill.py` |
 | Subagent | subagent-creator | `init_subagent.py` |
 | Hook | hooks-creator | `init_hook.py` |
 
@@ -394,7 +394,7 @@ python3 .claude/skills/command-creator/scripts/init_command.py \
 
 ```bash
 # Create database skill
-python3 .claude/skills/skill-creator/scripts/init_skill.py \
+python3 .claude/skills/skill-developer/scripts/init_skill.py \
   database-expert --path .claude/skills
 ```
 
@@ -436,7 +436,7 @@ This skill routes to specialized creators rather than duplicating their function
 | Skill | Location | Key Resources |
 |-------|----------|---------------|
 | command-creator | `.claude/skills/command-creator/` | 6 templates, init/validate scripts |
-| skill-creator | `.claude/skills/skill-creator/` | init/package scripts, structure guide |
+| skill-developer | `.claude/skills/skill-developer/` | init/package scripts, structure guide |
 | subagent-creator | `.claude/skills/subagent-creator/` | 7 templates, init/validate scripts |
 | hooks-creator | `.claude/skills/hooks-creator/` | 5 event templates, test scripts |
 
@@ -456,7 +456,7 @@ skill-generator-tool
 Route to creator skill
     │
     ├─ command-creator
-    ├─ skill-creator
+    ├─ skill-developer
     ├─ subagent-creator
     └─ hooks-creator
     │
@@ -472,7 +472,7 @@ Tool created & validated
 
 ### Related Skills
 - **command-creator** - Slash command creation
-- **skill-creator** - Skill creation and packaging
+- **skill-developer** - Skill creation and packaging
 - **subagent-creator** - Subagent definition
 - **hooks-creator** - Hook script creation
 

@@ -560,7 +560,7 @@ Combine appropriately:
 
 **The Mistake:**
 ```
-skills/skill-creator/SKILL.md
+skills/skill-developer/SKILL.md
 skills/skill-developer/SKILL.md  # Same thing!
 ```
 
