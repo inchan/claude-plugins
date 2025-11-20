@@ -57,6 +57,50 @@ Claude Code 공식 구조에 맞게 설정 파일을 설치합니다:
 
 ---
 
+### uninstall-skills.js
+
+설치된 스킬, 커맨드, 훅을 제거하거나 백업에서 복원합니다.
+
+#### 사용법
+
+```bash
+# 대화형 모드
+node scripts/uninstall-skills.js
+
+# 직접 지정
+node scripts/uninstall-skills.js --target global     # ~/.claude에서 제거
+node scripts/uninstall-skills.js --target workspace  # ./.claude에서 제거
+
+# 미리보기 (실제 변경 없음)
+node scripts/uninstall-skills.js --dry-run
+
+# 백업에서 복원
+node scripts/uninstall-skills.js --restore
+
+# 비대화형 (확인 생략)
+node scripts/uninstall-skills.js --target global --yes
+```
+
+#### 주요 기능
+
+- **제거 위치 선택**: global (`~/.claude`) 또는 workspace (`./.claude`)
+- **스킬 제거**: 24개 스킬 폴더 제거
+- **커맨드 제거**: commands 폴더 내 파일 제거
+- **훅 제거**: hooks 폴더 전체 제거
+- **설정 정리**: settings 파일에서 hooks 설정 제거
+- **백업 복원**: 이전 백업에서 파일 복원
+- **Dry-run**: 실제 변경 없이 미리보기
+
+#### 제거 대상
+
+- 24개 스킬 폴더
+- 4개 커맨드 파일
+- hooks 폴더 전체
+- scripts 폴더
+- skill-rules.json (빈 객체로 초기화)
+
+---
+
 ### install-skills.test.js
 
 install-skills.js의 단위 테스트입니다.
