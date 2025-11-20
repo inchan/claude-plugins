@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/hooks/skill-activation-prompt.ts"
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/skill-activation-prompt.sh"
           }
         ]
       }
