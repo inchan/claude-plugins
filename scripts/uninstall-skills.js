@@ -9,6 +9,7 @@
  *   node scripts/uninstall-skills.js --target workspace
  *   node scripts/uninstall-skills.js --dry-run
  *   node scripts/uninstall-skills.js --restore  # 백업에서 복원
+ *   node scripts/uninstall-skills.js --skill <name>  # 특정 스킬만 제거
  */
 
 const fs = require('fs').promises;
@@ -33,6 +34,7 @@ const config = {
   isGlobal: false,
   autoConfirm: false,
   restore: false,
+  specificSkill: null,  // 특정 스킬만 제거
   targetDir: null,
   backupDir: null,
   stats: {
@@ -95,6 +97,14 @@ function logError(message) {
   log(`✗ ${message}`, colors.red);
 }
 
+function showProgress(current, total, label) {
+  const percent = Math.round((current / total) * 100);
+  const filled = Math.round(percent / 5);
+  const bar = '█'.repeat(filled) + '░'.repeat(20 - filled);
+  process.stdout.write(`\r${colors.cyan}${bar}${colors.reset} ${percent}% ${label}`);
+  if (current === total) console.log('');
+}
+
 // =============================================================================
 // 보안: 경로 검증
 // =============================================================================
@@ -155,6 +165,13 @@ async function selectTarget() {
     logInfo('복원 모드: 백업에서 파일 복원');
   }
 
+  // --skill 옵션 확인
+  const skillIndex = args.indexOf('--skill');
+  if (skillIndex !== -1 && args[skillIndex + 1]) {
+    config.specificSkill = args[skillIndex + 1];
+    logInfo(`특정 스킬만 제거: ${config.specificSkill}`);
+  }
+
   const targetIndex = args.indexOf('--target');
   if (targetIndex !== -1 && args[targetIndex + 1]) {
     const target = args[targetIndex + 1].toLowerCase();
@@ -195,12 +212,15 @@ async function removeDir(dirPath) {
   if (!fsSync.existsSync(dirPath)) return false;
 
   const validPath = validatePath(dirPath);
+  const relativePath = path.relative(config.targetDir, validPath);
 
-  if (!config.dryRun) {
+  if (config.dryRun) {
+    logInfo(`[DRY-RUN] 제거 예정: ${relativePath}/`);
+  } else {
     await fs.rm(validPath, { recursive: true, force: true });
   }
 
-  config.stats.removed.push(path.relative(config.targetDir, validPath));
+  config.stats.removed.push(relativePath);
   return true;
 }
 
@@ -208,12 +228,15 @@ async function removeFile(filePath) {
   if (!fsSync.existsSync(filePath)) return false;
 
   const validPath = validatePath(filePath);
+  const relativePath = path.relative(config.targetDir, validPath);
 
-  if (!config.dryRun) {
+  if (config.dryRun) {
+    logInfo(`[DRY-RUN] 제거 예정: ${relativePath}`);
+  } else {
     await fs.unlink(validPath);
   }
 
-  config.stats.removed.push(path.relative(config.targetDir, validPath));
+  config.stats.removed.push(relativePath);
   return true;
 }
 
@@ -231,18 +254,50 @@ async function removeSkills() {
 
   logInfo('스킬 제거 중...');
 
+  // 특정 스킬만 제거하는 경우
+  if (config.specificSkill) {
+    const skillPath = path.join(skillsDir, config.specificSkill);
+    if (await removeDir(skillPath)) {
+      logSuccess(`스킬 '${config.specificSkill}' 제거 완료`);
+    } else {
+      logWarning(`스킬 '${config.specificSkill}'을 찾을 수 없습니다.`);
+    }
+    return;
+  }
+
+  // 실제 디렉토리에서 스킬 목록 가져오기 (동적 로드)
+  let skillsToRemove = SKILLS_TO_REMOVE;
+  try {
+    const entries = await fs.readdir(skillsDir, { withFileTypes: true });
+    const actualSkills = entries
+      .filter(e => e.isDirectory() && !e.name.startsWith('.') && !e.name.endsWith('.old'))
+      .map(e => e.name);
+
+    // 설치된 스킬과 제거 목록의 교집합
+    skillsToRemove = SKILLS_TO_REMOVE.filter(s => actualSkills.includes(s));
+  } catch (e) {
+    // 폴백: 기본 목록 사용
+  }
+
   let count = 0;
-  for (const skillName of SKILLS_TO_REMOVE) {
+  const total = skillsToRemove.length;
+
+  for (const skillName of skillsToRemove) {
     const skillPath = path.join(skillsDir, skillName);
     if (await removeDir(skillPath)) {
       count++;
+    }
+    if (total > 5) {
+      showProgress(count, total, `스킬 제거: ${skillName}`);
     }
   }
 
   // skill-rules.json 정리 (빈 객체로)
   const rulesPath = path.join(skillsDir, 'skill-rules.json');
   if (fsSync.existsSync(rulesPath)) {
-    if (!config.dryRun) {
+    if (config.dryRun) {
+      logInfo('[DRY-RUN] skill-rules.json 초기화 예정');
+    } else {
       const emptyRules = {
         version: '1.0',
         description: 'Skill activation triggers for Claude Code.',
@@ -375,13 +430,27 @@ async function restoreFromBackup() {
       const srcPath = path.join(src, entry.name);
       const destPath = path.join(dest, entry.name);
 
+      // 대상 경로 검증
+      try {
+        validatePath(destPath);
+      } catch (e) {
+        logWarning(`경로 검증 실패, 건너뜀: ${destPath}`);
+        continue;
+      }
+
       if (entry.isDirectory()) {
         if (!fsSync.existsSync(destPath)) {
-          await fs.mkdir(destPath, { recursive: true });
+          if (config.dryRun) {
+            logInfo(`[DRY-RUN] 복원 예정: ${path.relative(config.targetDir, destPath)}/`);
+          } else {
+            await fs.mkdir(destPath, { recursive: true });
+          }
         }
         await copyRecursive(srcPath, destPath);
       } else {
-        if (!config.dryRun) {
+        if (config.dryRun) {
+          logInfo(`[DRY-RUN] 복원 예정: ${path.relative(config.targetDir, destPath)}`);
+        } else {
           await fs.copyFile(srcPath, destPath);
         }
         config.stats.restored.push(path.relative(config.targetDir, destPath));
@@ -389,9 +458,8 @@ async function restoreFromBackup() {
     }
   };
 
-  if (!config.dryRun) {
-    await copyRecursive(backupPath, config.targetDir);
-  }
+  // dry-run에서도 목록 확인을 위해 항상 실행
+  await copyRecursive(backupPath, config.targetDir);
 
   logSuccess(`${config.stats.restored.length}개 파일 복원 완료`);
 }

@@ -77,19 +77,27 @@ node scripts/uninstall-skills.js --dry-run
 # 백업에서 복원
 node scripts/uninstall-skills.js --restore
 
+# 특정 스킬만 제거
+node scripts/uninstall-skills.js --skill agent-workflow-manager
+
 # 비대화형 (확인 생략)
 node scripts/uninstall-skills.js --target global --yes
+
+# 조합 사용
+node scripts/uninstall-skills.js --target workspace --skill prompt-enhancer --dry-run
 ```
 
 #### 주요 기능
 
 - **제거 위치 선택**: global (`~/.claude`) 또는 workspace (`./.claude`)
-- **스킬 제거**: 24개 스킬 폴더 제거
+- **스킬 제거**: 24개 스킬 폴더 제거 (동적 스캔)
+- **부분 제거**: `--skill` 옵션으로 특정 스킬만 제거
 - **커맨드 제거**: commands 폴더 내 파일 제거
 - **훅 제거**: hooks 폴더 전체 제거
 - **설정 정리**: settings 파일에서 hooks 설정 제거
 - **백업 복원**: 이전 백업에서 파일 복원
-- **Dry-run**: 실제 변경 없이 미리보기
+- **Dry-run**: 실제 변경 없이 상세 미리보기
+- **진행 상황**: 대량 제거 시 프로그레스 바 표시
 
 #### 제거 대상
 

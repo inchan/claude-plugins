@@ -38,7 +38,8 @@
       "Bash(then echo \"✅ $skill\")",
       "Bash(else echo \"❌ $skill (디렉토리 없음)\")",
       "Bash(do if grep -q '$(dirname $f)' CLAUDE.md)",
-      "Bash(then echo '⚠️  $f')"
+      "Bash(then echo '⚠️  $f')",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []
