@@ -117,29 +117,35 @@ cd cc-skills
 
 ```
 cc-skills/
-├── .claude-plugin/           # 플러그인 메타데이터
-│   ├── plugin.json           # 플러그인 매니페스트
-│   └── marketplace.json      # 마켓플레이스 설정
-├── .claude/                   # Claude Code 설정
-│   ├── commands/             # 슬래시 커맨드
-│   ├── skills/               # 스킬 컬렉션 (23개)
-│   ├── hooks/                # 원본 훅 스크립트
-│   └── settings.local.json   # 프로젝트 훅 설정
-├── agents/                    # 서브에이전트 정의
-│   ├── code-reviewer.md
-│   ├── architect.md
-│   └── workflow-orchestrator.md
-├── hooks/                     # 플러그인 훅 설정
-│   └── hooks.json
-├── scripts/                   # 훅 실행 스크립트
+├── .claude-plugin/              # 플러그인 메타데이터
+│   ├── plugin.json              # 플러그인 매니페스트
+│   └── marketplace.json         # 마켓플레이스 설정
+├── skills/                      # 스킬 컬렉션 (29개)
+│   ├── skill-rules.json         # 스킬 자동 활성화 규칙
+│   ├── agent-workflow-manager/
+│   ├── intelligent-task-router/
+│   └── ...                      # 기타 스킬들
+├── commands/                    # 슬래시 커맨드
+│   ├── auto-workflow.md
+│   ├── workflow-simple.md
+│   ├── workflow-parallel.md
+│   └── workflow-complex.md
+├── hooks/                       # 플러그인 훅
+│   ├── hooks.json               # 훅 설정
 │   ├── skill-activation-prompt.ts
 │   ├── post-tool-use-tracker.sh
 │   ├── stop-hook-lint-and-translate.sh
 │   └── meta-prompt-logger.js
-├── skills -> .claude/skills   # 심볼릭 링크
-├── .mcp.json                  # MCP 서버 설정
-├── CLAUDE.md                  # 프로젝트 가이드
-└── PLUGIN.md                  # 플러그인 문서 (이 파일)
+├── agents/                      # 서브에이전트 정의
+│   ├── code-reviewer.md
+│   ├── architect.md
+│   └── workflow-orchestrator.md
+├── scripts/                     # 유틸리티 스크립트
+│   └── install-skills.js
+├── settings.local.json          # 로컬 훅 설정 및 권한
+├── .mcp.json                    # MCP 서버 설정
+├── CLAUDE.md                    # 프로젝트 가이드
+└── PLUGIN.md                    # 플러그인 문서 (이 파일)
 ```
 
 ## 참고 문서
@@ -267,6 +273,14 @@ chmod +x scripts/*.sh
 MIT License
 
 ## 버전 히스토리
+
+### v1.4.0 (2025-11-20)
+- ✅ **plugin.json에 hooks 필드 추가** (`"hooks": "./hooks/hooks.json"`)
+- ✅ **플러그인 구조 문서 수정**: 실제 디렉토리 구조 반영
+  - `.claude/` 디렉토리 제거된 것 반영
+  - `skills/`, `commands/`, `hooks/` 루트 레벨 구조 문서화
+- ✅ **Hook 경로 참조 수정**: skill-activation-prompt.ts 플러그인 구조 지원
+- ✅ **스킬 개수 업데이트**: 23개 → 29개
 
 ### v1.2.0 (2025-11-19)
 - Claude Code 플러그인 시스템으로 전환

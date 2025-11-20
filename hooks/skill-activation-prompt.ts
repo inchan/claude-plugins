@@ -116,14 +116,24 @@ async function main() {
 
         // Load skill rules - check multiple locations
         const homeDir = process.env.HOME || process.env.USERPROFILE || '';
+        const pluginRoot = process.env.CLAUDE_PLUGIN_ROOT;
+
+        // Plugin paths (when running as installed plugin)
+        const pluginRulesPath = pluginRoot ? join(pluginRoot, 'skills', 'skill-rules.json') : '';
+
+        // Legacy paths (for backward compatibility and local development)
         const globalRulesPath = join(homeDir, '.claude', 'skills', 'skill-rules.json');
         const projectRulesPath = join(data.cwd, '.claude', 'skills', 'skill-rules.json');
 
-        // Priority: project > global
-        let rulesPath = globalRulesPath;
+        // Priority: project > plugin > global
+        let rulesPath = '';
         if (existsSync(projectRulesPath)) {
             rulesPath = projectRulesPath;
-        } else if (!existsSync(globalRulesPath)) {
+        } else if (pluginRulesPath && existsSync(pluginRulesPath)) {
+            rulesPath = pluginRulesPath;
+        } else if (existsSync(globalRulesPath)) {
+            rulesPath = globalRulesPath;
+        } else {
             // No rules found anywhere, exit silently
             process.exit(0);
         }
@@ -131,9 +141,22 @@ async function main() {
         const rules: SkillRules = JSON.parse(readFileSync(rulesPath, 'utf-8'));
 
         // Load enhancement rules
-        const enhancementRulesPath = join(data.cwd, '.claude', 'skills', 'prompt-enhancement-rules.json');
+        const pluginEnhancementPath = pluginRoot ? join(pluginRoot, 'skills', 'prompt-enhancement-rules.json') : '';
+        const projectEnhancementPath = join(data.cwd, '.claude', 'skills', 'prompt-enhancement-rules.json');
+        const globalEnhancementPath = join(homeDir, '.claude', 'skills', 'prompt-enhancement-rules.json');
+
         let enhancementRules: EnhancementRules | null = null;
-        if (existsSync(enhancementRulesPath)) {
+        let enhancementRulesPath = '';
+
+        if (existsSync(projectEnhancementPath)) {
+            enhancementRulesPath = projectEnhancementPath;
+        } else if (pluginEnhancementPath && existsSync(pluginEnhancementPath)) {
+            enhancementRulesPath = pluginEnhancementPath;
+        } else if (existsSync(globalEnhancementPath)) {
+            enhancementRulesPath = globalEnhancementPath;
+        }
+
+        if (enhancementRulesPath) {
             enhancementRules = JSON.parse(readFileSync(enhancementRulesPath, 'utf-8'));
         }
 

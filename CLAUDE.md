@@ -526,6 +526,10 @@ allowed-tools: Task
   - `.claude/` 디렉토리 제거
   - `skills/`, `commands/`, `hooks/` 모두 루트 레벨로 이동
   - 모든 설정 파일 경로 업데이트 (settings.local.json, hooks/hooks.json)
+- ✅ **Hook 경로 참조 수정**: skill-activation-prompt.ts 플러그인 구조 지원
+  - `${CLAUDE_PLUGIN_ROOT}` 환경 변수 사용
+  - 경로 우선순위: project > plugin > global (레거시 지원)
+  - settings.local.json과 hooks/hooks.json 모두 플러그인 경로 사용
 - ✅ **문서 업데이트**: CLAUDE.md의 모든 경로 참조 수정
 
 ### v1.3.0 (2025-11-20)

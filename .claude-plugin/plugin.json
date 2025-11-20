@@ -1,6 +1,6 @@
 {
   "name": "cc-skills",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Claude Code skills and hooks collection - extending Claude Code with specialized workflows, agents, and development guidelines",
   "author": {
     "name": "inchan",
@@ -23,5 +23,6 @@
     "./agents/architect.md",
     "./agents/code-reviewer.md",
     "./agents/workflow-orchestrator.md"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

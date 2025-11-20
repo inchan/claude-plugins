@@ -60,7 +60,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx hooks/skill-activation-prompt.ts"
+            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/hooks/skill-activation-prompt.ts"
           }
         ]
       }
@@ -71,7 +71,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash hooks/post-tool-use-tracker.sh"
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/post-tool-use-tracker.sh"
           }
         ]
       }
@@ -82,7 +82,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash hooks/stop-hook-lint-and-translate.sh"
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/stop-hook-lint-and-translate.sh"
           }
         ]
       }
