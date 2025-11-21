@@ -71,15 +71,68 @@ for rules_file in "${SKILL_RULES_FILES[@]}"; do
 done
 
 # Count total skills
-TOTAL_SKILLS=$(wc -l < "$AGGREGATED_SKILLS")
+TOTAL_SKILLS=$(wc -l < "$AGGREGATED_SKILLS" | xargs)
 echo "[DEBUG] Total skills aggregated: ${TOTAL_SKILLS}" >> "$LOG_FILE"
+
+# Match skills based on USER_PROMPT keywords
+match_skills_by_keywords() {
+    local prompt="$1"
+    local skills_file="$2"
+
+    # Convert prompt to lowercase for case-insensitive matching
+    local prompt_lower=$(echo "$prompt" | tr '[:upper:]' '[:lower:]')
+
+    # AWK script: Match keywords against prompt
+    awk -F'|' -v prompt="$prompt_lower" '
+    {
+        priority = $1
+        plugin = $2
+        skill = $3
+        keywords = tolower($4)
+
+        # Split keywords by comma
+        split(keywords, kw_array, ",")
+
+        # Check each keyword
+        for (i in kw_array) {
+            # Trim whitespace
+            gsub(/^[ \t]+|[ \t]+$/, "", kw_array[i])
+
+            # If keyword found in prompt, print with match score
+            if (index(prompt, kw_array[i]) > 0) {
+                # Score = number of matching keywords
+                print priority "|" plugin "|" skill "|" keywords
+                next
+            }
+        }
+    }' "$skills_file"
+}
+
+# Match skills by keywords first
+MATCHED_SKILLS=$(mktemp)
+if [[ -n "$USER_PROMPT" ]]; then
+    match_skills_by_keywords "$USER_PROMPT" "$AGGREGATED_SKILLS" > "$MATCHED_SKILLS"
+
+    # If no match, fallback to priority-only
+    if [[ ! -s "$MATCHED_SKILLS" ]]; then
+        echo "[DEBUG] No keyword match, using priority fallback" >> "$LOG_FILE"
+        cp "$AGGREGATED_SKILLS" "$MATCHED_SKILLS"
+    else
+        MATCHED_COUNT=$(wc -l < "$MATCHED_SKILLS" | xargs)
+        echo "[DEBUG] Keyword matched skills: ${MATCHED_COUNT}" >> "$LOG_FILE"
+    fi
+else
+    # No prompt, use all skills
+    echo "[DEBUG] No prompt provided, using all skills" >> "$LOG_FILE"
+    cp "$AGGREGATED_SKILLS" "$MATCHED_SKILLS"
+fi
 
 # Build output message
 OUTPUT_MSG="INSTRUCTION: MULTI-PLUGIN SKILL ACTIVATION\n\nAvailable Skills by Plugin:\n"
 
 # Sort by plugin name first
 SORTED_SKILLS=$(mktemp)
-sort -t'|' -k2,2 -k3,3 "$AGGREGATED_SKILLS" > "$SORTED_SKILLS"
+sort -t'|' -k2,2 -k3,3 "$MATCHED_SKILLS" > "$SORTED_SKILLS"
 
 # Group by plugin and display
 if [[ $TOTAL_SKILLS -gt 0 ]]; then
@@ -102,18 +155,53 @@ OUTPUT_MSG="${OUTPUT_MSG}Example: Skill(\"workflow-automation:intelligent-task-r
 OUTPUT_MSG="${OUTPUT_MSG}Step 3 - IMPLEMENT:\nProceed with implementation after activation\n\n"
 OUTPUT_MSG="${OUTPUT_MSG}CRITICAL: Skills are now namespaced by plugin (plugin-name:skill-name)"
 
-# Output as JSON for Claude Code
+# Output as JSON for Claude Code (stdout)
 cat << EOF
 {
   "hookSpecificOutput": {
     "hookEventName": "UserPromptSubmit",
-    "additionalContext": "$(echo -e "$OUTPUT_MSG" | sed 's/"/\\"/g' | sed ':a;N;$!ba;s/\n/\\n/g')"
+    "additionalContext": "$(echo -e "$OUTPUT_MSG" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
   }
 }
 EOF
 
+# Display progress and summary to user (stderr) - Clean Line Style
+if [[ $TOTAL_SKILLS -gt 0 ]]; then
+    PLUGIN_COUNT=$(sort -t'|' -k2,2 -u "$MATCHED_SKILLS" | wc -l | xargs)
+    MATCHED_SKILLS_COUNT=$(wc -l < "$MATCHED_SKILLS" | xargs)
+
+    # Clean line header
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
+    echo "  스킬 활성화" >&2
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
+    echo "" >&2
+
+    # Stats line
+    echo "📦 ${PLUGIN_COUNT}개 플러그인 · 🔧 ${MATCHED_SKILLS_COUNT}개 스킬 (전체: ${TOTAL_SKILLS})" >&2
+    echo "" >&2
+
+    # Suggested skills section
+    echo "🎯 제안 스킬:" >&2
+
+    # Priority mapping for sorting: critical=4, high=3, medium=2, low=1
+    awk -F'|' '{
+        priority=$1
+        if (priority == "critical") p=4
+        else if (priority == "high") p=3
+        else if (priority == "medium") p=2
+        else p=1
+        print p"|"$0
+    }' "$MATCHED_SKILLS" | sort -t'|' -k1,1nr | cut -d'|' -f2- | head -3 | while IFS='|' read -r priority plugin skill keywords; do
+        # Format: plugin:skill
+        echo "  • ${plugin}:${skill}" >&2
+    done
+
+    # Footer line
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" >&2
+fi
+
 # Cleanup
-rm -f "$AGGREGATED_SKILLS"
+rm -f "$AGGREGATED_SKILLS" "$MATCHED_SKILLS"
 
 exit 0
 
