@@ -1,0 +1,10 @@
+{
+  "name": "cc-skills-hooks",
+  "version": "2.0.0",
+  "description": "Skill activation hooks for CC-Skills plugins",
+  "author": {
+    "name": "inchan",
+    "url": "https://github.com/inchan"
+  },
+  "hooks": "./hooks.json"
+}

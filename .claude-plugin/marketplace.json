@@ -9,6 +9,12 @@
   },
   "plugins": [
     {
+      "name": "cc-skills-hooks",
+      "version": "2.0.0",
+      "source": "./hooks",
+      "description": "Skill activation hooks for all CC-Skills plugins"
+    },
+    {
       "name": "workflow-automation",
       "version": "2.0.0",
       "source": "./plugins/workflow-automation",

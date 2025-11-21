@@ -1,252 +1,173 @@
-# Claude Code Hooks Collection
+# CC-Skills Hooks Plugin
 
-## 개요
+Skill activation hooks for CC-Skills plugins - Auto-suggests relevant skills based on user prompts.
 
-Claude Code용 훅 모음집입니다. 프롬프트 개선, 코드 변경 추적, 자동 린트/번역 등의 기능을 제공합니다.
+## Overview
 
-## 빠른 설치
+This plugin provides **UserPromptSubmit** hooks that:
+- Aggregates `skill-rules.json` from all CC-Skills plugins
+- Analyzes user prompts for keywords and intent patterns
+- Suggests relevant skills based on priority (critical > high > medium > low)
 
-```bash
-# 훅을 글로벌 환경(~/.claude/)에 설치
-node scripts/install-hooks.js
+## Installation
 
-# 자동 확인 모드 (CI/CD용)
-node scripts/install-hooks.js --yes
-
-# 시뮬레이션 (실제 변경 없음)
-node scripts/install-hooks.js --dry-run
-```
-
-설치 후 Claude Code를 재시작하세요.
-
-## 포함된 훅
-
-### 1. 🎯 Skill Activation Prompt (UserPromptSubmit)
-사용자 프롬프트를 분석하여 적절한 스킬을 자동으로 제안합니다.
-
-**파일**: `skill-forced-eval-hook.sh`
-
-
-
-### 2. 🔄 Interactive Lint & Translate (Stop)
-Claude Code 사용 종료 시 실행되는 대화형 훅입니다. 변경된 파일에 대해 ESLint, Stylelint, i18n 업데이트 작업을 사용자가 선택하여 실행할 수 있습니다.
-
-**파일**: `stop-hook-lint-and-translate.sh`
-
-## 주요 기능
-
-### 1. 🎯 선택적 실행
-- 사용자가 원하는 작업만 선택 가능
-- 숫자 입력으로 간편한 선택 (예: `1,3`)
-- `all` 명령으로 전체 작업 실행
-- `n` 또는 `skip`으로 건너뛰기
-
-### 2. ⚡ 병렬 실행
-- 선택된 작업들을 동시에 실행
-- 빠른 피드백
-- 각 작업의 독립적 실행
-
-### 3. 📊 명확한 결과 표시
-- 각 작업의 성공/실패 상태
-- 에러 메시지 상세 표시
-- 수정 방법 안내
-
-### 4. 🔄 유연한 오류 처리
-- 에러 발생 시에도 계속 진행 가능
-- 사용자가 최종 결정
-
-## 사용 예시
-
-### 기본 사용
+When installing the CC-Skills marketplace:
 
 ```bash
-🔍 변경된 파일 분석 완료
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Add marketplace
+/plugin marketplace add inchan/cc-skills
 
-  • JS/TS 파일: 5개
-  • CSS/SCSS 파일: 2개
+# Install hooks plugin (required for auto-activation)
+/plugin install cc-skills-hooks@inchan-cc-skills
 
-실행 가능한 작업:
-  1. ESLint (JS/TS 파일 검사)
-  2. Stylelint (CSS 파일 검사)
-  3. i18n 번역 업데이트
-
-실행할 작업을 선택하세요:
-  - 숫자를 입력 (예: 1,3)
-  - all: 모든 작업 실행
-  - n 또는 skip: 건너뛰기
-
-선택: 1,3
+# Install other plugins as needed
+/plugin install workflow-automation@inchan-cc-skills
+/plugin install dev-guidelines@inchan-cc-skills
+# ...
 ```
 
-### 선택 옵션
+## How It Works
 
-| 입력 | 동작 |
-|------|------|
-| `1` | 첫 번째 작업만 실행 |
-| `1,3` | 첫 번째와 세 번째 작업 실행 |
-| `all` | 모든 작업 실행 |
-| `n` 또는 `skip` | 작업 건너뛰기 |
-| (빈 입력) | 작업 건너뛰기 |
+### 1. Hook Trigger
+- **Event**: `UserPromptSubmit`
+- **Execution**: Before every user prompt is processed
 
-### 실행 결과
+### 2. Skill Aggregation
+The hook scans all installed CC-Skills plugins:
 
-#### 성공 케이스
 ```bash
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-실행 결과:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  ✅ ESLint: 통과
-  ✅ i18n: 업데이트 필요한 파일 발견
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✅ 모든 작업이 성공적으로 완료되었습니다!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${REPO_ROOT}/plugins/*/skills/skill-rules.json
 ```
 
-#### 에러 케이스
-```bash
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-실행 결과:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+### 3. Pattern Matching
+For each skill in `skill-rules.json`:
+- Matches **keywords** in user prompt
+- Matches **intentPatterns** (regex) in user prompt
+- Assigns priority score (critical=4, high=3, medium=2, low=1)
 
-  ❌ ESLint: 오류 발견
-  ✅ i18n: 업데이트 필요한 파일 발견
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⚠️  일부 작업이 실패했습니다
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-▸ eslint 오류:
-
-  /path/to/file.js
-    10:5  error  'foo' is not defined  no-undef
-    15:8  error  Missing semicolon     semi
-
-수정 명령어:
-  yarn eslint --fix [파일명]
-
-계속 진행하시겠습니까? (y/n): 
-```
-
-## 지원하는 작업
-
-### 1. ESLint
-- **조건**: JS/TS 파일이 변경된 경우
-- **실행**: `npx eslint --quiet [변경된 파일들]`
-- **수정**: `yarn eslint --fix [파일명]`
-
-### 2. Stylelint
-- **조건**: CSS/SCSS 파일이 변경된 경우
-- **실행**: `npx stylelint [변경된 파일들]`
-- **수정**: `yarn stylelint --fix [파일명]`
-
-### 3. i18n 번역 업데이트
-- **조건**: JS/TS 파일에 `t(` 또는 `i18Key(`가 포함된 경우
-- **안내**: 업데이트가 필요한 파일 목록 표시
-- **수정**: `yarn i18n-extract`
-
-## 동작 조건
-
-다음 조건을 모두 만족할 때만 훅이 실행됩니다:
-
-1. ✅ Git 저장소 내부
-2. ✅ `package.json` 파일 존재 (프로젝트 확인)
-3. ✅ 변경된 파일 존재 (`git status`)
-4. ✅ `stop_hook_active`가 false (무한 루프 방지)
-
-## 설치 및 설정
-
-### 위치
-```
-~/.claude/hooks/stop-hook-lint-and-translate.sh
-```
-
-### 권한
-```bash
-chmod +x ~/.claude/hooks/stop-hook-lint-and-translate.sh
-```
-
-### Claude Code 설정
-Claude Code가 자동으로 이 훅을 인식하고 실행합니다.
-
-## 병렬 실행 구조
+### 4. Skill Suggestion
+Outputs suggestions to Claude:
 
 ```
-사용자 선택 (1,3)
-    ↓
-┌─────────────┐
-│ Task 병렬화 │
-└─────────────┘
-    ↓
-┌──────────────┬──────────────┐
-│  ESLint      │  i18n        │
-│  (백그라운드)│  (백그라운드) │
-└──────────────┴──────────────┘
-    ↓            ↓
-┌──────────────┬──────────────┐
-│ 결과 수집    │ 결과 수집     │
-└──────────────┴──────────────┘
-    ↓
-┌─────────────┐
-│ 통합 결과   │
-│ 표시        │
-└─────────────┘
+[SKILL SUGGESTIONS]
+Priority: high
+- frontend-dev-guidelines (React/TypeScript development)
+- error-tracking (Sentry v8 patterns)
 ```
 
-## 기술 상세
+## Files
 
-### 임시 파일 사용
-- 각 작업의 결과를 임시 파일에 저장
-- 병렬 실행 중 데이터 충돌 방지
-- 종료 시 자동 정리 (`trap`)
+| File | Description |
+|------|-------------|
+| `plugin.json` | Plugin metadata |
+| `hooks.json` | Hook configuration |
+| `skill-activation-hook.sh` | Main hook script |
+| `stop-hook-lint-and-translate.sh` | Stop hook (optional) |
 
-### 프로세스 관리
-```bash
-declare -A PIDS
-run_eslint &
-PIDS[eslint]=$!
-wait ${PIDS[eslint]}
+## Configuration
+
+### hooks.json
+
+```json
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/skill-activation-hook.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
 
-### 색상 코드
-- 🔵 파란색: 정보 메시지
-- 🟢 초록색: 성공 메시지
-- 🟡 노란색: 경고 메시지
-- 🔴 빨간색: 오류 메시지
+### Environment Variables
 
-## 문제 해결
+- `${CLAUDE_PLUGIN_ROOT}`: Plugin root directory
+- `${REPO_ROOT}`: Repository root (auto-detected)
 
-### 작업이 실행되지 않아요
-1. Git 저장소인지 확인
-2. `package.json` 존재 확인
-3. 파일이 실제로 변경되었는지 확인: `git status`
+## Logging
 
-### 특정 작업이 목록에 나타나지 않아요
-- **ESLint**: JS/TS 파일이 변경되지 않음
-- **Stylelint**: CSS/SCSS 파일이 변경되지 않음
-- **i18n**: `t(` 또는 `i18Key(` 사용하는 파일 없음
+Hook execution logs are written to:
 
-### 무한 루프가 발생해요
-- `stop_hook_active` 플래그로 방지
-- 발생 시 스크립트가 자동으로 중단됨
+```
+/tmp/claude-skill-activation.log
+```
 
-## 향후 개선 계획
+Example log:
+```
+[2025-11-21 10:30:15] Multi-plugin skill-activation-hook executed
+[DEBUG] Repository root: /home/user/.claude/plugins/inchan-cc-skills
+[DEBUG] User prompt: Create a React component
+[DEBUG] Found: /home/user/.claude/plugins/inchan-cc-skills/plugins/dev-guidelines/skills/skill-rules.json
+[DEBUG] Total skill-rules.json files: 7
+[INFO] Suggesting skill: frontend-dev-guidelines (priority: high)
+```
 
-- [ ] 설정 파일 지원 (기본 선택 저장)
-- [ ] 타임아웃 설정
-- [ ] 캐싱 기능
-- [ ] 증분 검사
-- [ ] 더 다양한 린터 지원
+## Dependencies
 
-## 변경 이력
+- **Bash** (shell script execution)
+- **jq** (JSON parsing, optional but recommended)
 
-### v2.0.0 (2025-11-13)
-- ✨ 대화형 선택 기능 추가
-- ⚡ 병렬 실행 구현
-- 📊 향상된 결과 표시
-- 🔄 유연한 오류 처리
+## Compatibility
 
-### v1.0.0 (이전)
-- 기본 자동 실행 기능
+- Claude Code v1.0.0+
+- Multi-plugin architecture (v2.0.0+)
+
+## Troubleshooting
+
+### Hook Not Executing
+
+1. **Check plugin installation**:
+   ```bash
+   /plugin list
+   # Should show "cc-skills-hooks"
+   ```
+
+2. **Verify script permissions**:
+   ```bash
+   ls -l ~/.claude/plugins/inchan-cc-skills/hooks/skill-activation-hook.sh
+   # Should show -rwxr-xr-x (executable)
+   ```
+
+3. **Check logs**:
+   ```bash
+   tail -f /tmp/claude-skill-activation.log
+   ```
+
+### Skills Not Suggested
+
+1. **Verify skill-rules.json exists**:
+   ```bash
+   find ~/.claude/plugins/inchan-cc-skills/plugins -name skill-rules.json
+   ```
+
+2. **Check keyword matches**:
+   - Open relevant `skill-rules.json`
+   - Verify keywords and intentPatterns
+
+3. **Check priority**:
+   - Only `suggest` enforcement shows suggestions
+   - `block` and `warn` are reserved for future use
+
+## Version History
+
+### v2.0.0 (2025-11-21)
+- ✅ Separated hooks into standalone plugin
+- ✅ Multi-plugin architecture support
+- ✅ Updated `${CLAUDE_PLUGIN_ROOT}` path references
+
+### v1.4.0 (2025-11-20)
+- Initial hooks implementation
+
+## License
+
+MIT License
+
+## Author
+
+**inchan** - [GitHub](https://github.com/inchan)
