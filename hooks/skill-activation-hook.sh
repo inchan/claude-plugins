@@ -1,45 +1,123 @@
 #!/bin/bash
-# UserPromptSubmit hook that forces explicit skill activation
+# Multi-Plugin UserPromptSubmit Hook
 #
-# This hook requires Claude to explicitly evaluate each available skill
-# before proceeding with implementation.
+# Aggregates skill-rules.json from all plugins and suggests relevant skills
+# based on user prompt keywords and intent patterns
 #
-# Installation: Copy to .claude/hooks/UserPromptSubmit
+# v2.0.0 - Multi-plugin architecture support
 
-# Logging for debugging
-LOG_FILE="/tmp/claude-hook-debug.log"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] skill-activation-hook.sh executed" >> "$LOG_FILE"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] PWD: $PWD" >> "$LOG_FILE"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] ARGS: $@" >> "$LOG_FILE"
+# Logging
+LOG_FILE="/tmp/claude-skill-activation.log"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Multi-plugin skill-activation-hook executed" >> "$LOG_FILE"
 
-# Debugging output to stderr (visible in Claude Code)
-echo "[DEBUG] skill-activation-hook.sh triggered at $(date)" >&2
+# Find repository root (where .claude-plugin exists)
+REPO_ROOT="${PWD}"
+while [[ ! -d "${REPO_ROOT}/.claude-plugin" && "${REPO_ROOT}" != "/" ]]; do
+    REPO_ROOT="$(dirname "${REPO_ROOT}")"
+done
+
+if [[ ! -d "${REPO_ROOT}/.claude-plugin" ]]; then
+    echo "[WARN] Cannot find .claude-plugin directory, skill activation disabled" >&2
+    exit 0
+fi
+
+echo "[DEBUG] Repository root: ${REPO_ROOT}" >> "$LOG_FILE"
+
+# Get user prompt from stdin (if available)
+USER_PROMPT=""
+if [[ -p /dev/stdin ]]; then
+    USER_PROMPT=$(cat)
+fi
+
+echo "[DEBUG] User prompt: ${USER_PROMPT}" >> "$LOG_FILE"
+
+# Collect all skill-rules.json from plugins
+SKILL_RULES_FILES=()
+for plugin_dir in "${REPO_ROOT}/plugins/"*/; do
+    if [[ -f "${plugin_dir}skills/skill-rules.json" ]]; then
+        SKILL_RULES_FILES+=("${plugin_dir}skills/skill-rules.json")
+        echo "[DEBUG] Found: ${plugin_dir}skills/skill-rules.json" >> "$LOG_FILE"
+    fi
+done
+
+if [[ ${#SKILL_RULES_FILES[@]} -eq 0 ]]; then
+    echo "[WARN] No skill-rules.json found in any plugin" >> "$LOG_FILE"
+    exit 0
+fi
+
+echo "[DEBUG] Total skill-rules.json files: ${#SKILL_RULES_FILES[@]}" >> "$LOG_FILE"
+
+# Aggregate all skills with priority
+# Output format: priority|plugin|skill-name|keywords
+AGGREGATED_SKILLS=$(mktemp)
+
+for rules_file in "${SKILL_RULES_FILES[@]}"; do
+    plugin_name=$(basename "$(dirname "$(dirname "$rules_file")")")
+
+    # Extract skills using node (if available) or skip
+    if command -v node &> /dev/null; then
+        node -e "
+        const fs = require('fs');
+        const rules = JSON.parse(fs.readFileSync('${rules_file}', 'utf8'));
+        if (!rules.skills) process.exit(0);
+
+        Object.entries(rules.skills).forEach(([name, config]) => {
+            const priority = config.priority || 'medium';
+            const keywords = (config.promptTriggers?.keywords || []).join(',');
+            console.log(\`\${priority}|${plugin_name}|\${name}|\${keywords}\`);
+        });
+        " >> "$AGGREGATED_SKILLS" 2>/dev/null
+    fi
+done
+
+# Count total skills
+TOTAL_SKILLS=$(wc -l < "$AGGREGATED_SKILLS")
+echo "[DEBUG] Total skills aggregated: ${TOTAL_SKILLS}" >> "$LOG_FILE"
+
+# Output instruction to Claude
+cat <<'EOF'
+INSTRUCTION: MULTI-PLUGIN SKILL ACTIVATION
+
+Available Skills by Plugin:
+EOF
+
+# Sort by plugin name first
+SORTED_SKILLS=$(mktemp)
+sort -t'|' -k2,2 -k3,3 "$AGGREGATED_SKILLS" > "$SORTED_SKILLS"
+
+# Group by plugin and display
+if [[ $TOTAL_SKILLS -gt 0 ]]; then
+    echo ""
+    current_plugin=""
+    while IFS='|' read -r priority plugin skill keywords; do
+        if [[ "$plugin" != "$current_plugin" ]]; then
+            echo ""
+            echo "📦 Plugin: $plugin"
+            current_plugin="$plugin"
+        fi
+        echo "  - $skill [priority: $priority]"
+    done < "$SORTED_SKILLS"
+    echo ""
+    rm -f "$SORTED_SKILLS"
+fi
 
 cat <<'EOF'
-INSTRUCTION: MANDATORY SKILL ACTIVATION SEQUENCE
 
-Step 1 - EVALUATE (do this in your response):
-For each skill in <available_skills>, state: [skill-name] - YES/NO - [reason]
+Step 1 - EVALUATE:
+For each skill above, state: [plugin:skill-name] - YES/NO - [reason]
 
-Step 2 - ACTIVATE (do this immediately after Step 1):
-IF any skills are YES → Use Skill(skill-name) tool for EACH relevant skill NOW
-IF no skills are YES → State "No skills needed" and proceed
+Step 2 - ACTIVATE:
+Use Skill("plugin-name:skill-name") for each YES skill
+Example: Skill("workflow-automation:intelligent-task-router")
 
 Step 3 - IMPLEMENT:
-Only after Step 2 is complete, proceed with implementation.
+Proceed with implementation after activation
 
-CRITICAL: You MUST call Skill() tool in Step 2. Do NOT skip to implementation.
-The evaluation (Step 1) is WORTHLESS unless you ACTIVATE (Step 2) the skills.
-
-
-Example of correct sequence:
-- research: NO - not a research task
-- svelte5-runes: YES - need reactive state
-- sveltekit-structure: YES - creating routes
-
-[Then IMMEDIATELY use Skill() tool:]
-> Skill(svelte5-runes)
-> Skill(sveltekit-structure)
-
-[THEN and ONLY THEN start implementation]
+CRITICAL: Skills are now namespaced by plugin (plugin-name:skill-name)
 EOF
+
+# Cleanup
+rm -f "$AGGREGATED_SKILLS"
+
+exit 0
+

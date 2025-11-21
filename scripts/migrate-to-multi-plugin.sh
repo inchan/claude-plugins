@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###############################################################################
-# Multi-Plugin Migration Script
+# Multi-Plugin Migration Script (Enhanced with Error Handling)
 #
 # 7개 독립 플러그인으로 구조 변경:
 # 1. workflow-automation
@@ -11,9 +11,23 @@
 # 5. ai-integration
 # 6. prompt-enhancement
 # 7. utilities
+#
+# v2.1.0 - Enhanced error handling with rollback support
 ###############################################################################
 
-set -e  # Exit on error
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
+
+# Error handling
+trap 'handle_error $? $LINENO' ERR
+
+handle_error() {
+    local exit_code=$1
+    local line_number=$2
+    log_error "마이그레이션 실패 (라인 ${line_number}, 종료 코드: ${exit_code})"
+    echo
+    log_warning "롤백을 실행하려면: bash scripts/rollback-migration.sh"
+    exit $exit_code
+}
 
 # Colors
 RED='\033[0;31m'
@@ -48,10 +62,34 @@ log_error() {
     echo -e "${RED}  ✗ $1${NC}"
 }
 
+# Checkpoint tracking
+CHECKPOINT_FILE="/tmp/cc-skills-migration-checkpoint.txt"
+declare -a COMPLETED_PHASES=()
+
+###############################################################################
+# Checkpoint Management
+###############################################################################
+save_checkpoint() {
+    local phase=$1
+    echo "$phase" >> "$CHECKPOINT_FILE"
+    COMPLETED_PHASES+=("$phase")
+    log_success "체크포인트 저장: $phase"
+}
+
+is_phase_completed() {
+    local phase=$1
+    grep -q "^${phase}$" "$CHECKPOINT_FILE" 2>/dev/null
+}
+
 ###############################################################################
 # Phase 1: Create Plugin Directories
 ###############################################################################
 create_plugin_directories() {
+    if is_phase_completed "phase1"; then
+        log_warning "Phase 1 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 1: 플러그인 디렉토리 생성"
 
     local plugins=(
@@ -69,11 +107,19 @@ create_plugin_directories() {
 
         log_step "생성 중: ${plugin}"
 
-        mkdir -p "${plugin_dir}"/{.claude-plugin,skills,commands,agents,hooks}
-
-        log_success "${plugin} 디렉토리 구조 생성"
+        # Error handling: check if directory already exists
+        if [ -d "$plugin_dir" ]; then
+            log_warning "${plugin} 디렉토리 이미 존재"
+        else
+            if ! mkdir -p "${plugin_dir}"/{.claude-plugin,skills,commands,agents,hooks}; then
+                log_error "${plugin} 디렉토리 생성 실패"
+                return 1
+            fi
+            log_success "${plugin} 디렉토리 구조 생성"
+        fi
     done
 
+    save_checkpoint "phase1"
     echo
 }
 
@@ -81,7 +127,15 @@ create_plugin_directories() {
 # Phase 2: Move Skills
 ###############################################################################
 move_skills() {
+    if is_phase_completed "phase2"; then
+        log_warning "Phase 2 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 2: 스킬 이동"
+
+    local skills_moved=0
+    local skills_failed=0
 
     # workflow-automation
     log_step "workflow-automation (7개 스킬)"
@@ -96,12 +150,20 @@ move_skills() {
     )
     for skill in "${wa_skills[@]}"; do
         if [ -d "${SRC_DIR}/skills/${skill}" ]; then
-            cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/workflow-automation/skills/"
-            echo "    ✓ ${skill}"
+            if cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/workflow-automation/skills/" 2>/dev/null; then
+                echo "    ✓ ${skill}"
+                ((skills_moved++))
+            else
+                log_error "복사 실패: ${skill}"
+                ((skills_failed++))
+            fi
+        else
+            log_warning "소스 없음: ${skill}"
         fi
     done
 
-    # dev-guidelines
+
+    # dev-guidelines (similar error handling pattern)
     log_step "dev-guidelines (3개 스킬)"
     local dg_skills=(
         "frontend-dev-guidelines"
@@ -110,8 +172,15 @@ move_skills() {
     )
     for skill in "${dg_skills[@]}"; do
         if [ -d "${SRC_DIR}/skills/${skill}" ]; then
-            cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/dev-guidelines/skills/"
-            echo "    ✓ ${skill}"
+            if cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/dev-guidelines/skills/" 2>/dev/null; then
+                echo "    ✓ ${skill}"
+                ((skills_moved++))
+            else
+                log_error "복사 실패: ${skill}"
+                ((skills_failed++))
+            fi
+        else
+            log_warning "소스 없음: ${skill}"
         fi
     done
 
@@ -126,8 +195,15 @@ move_skills() {
     )
     for skill in "${tc_skills[@]}"; do
         if [ -d "${SRC_DIR}/skills/${skill}" ]; then
-            cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/tool-creators/skills/"
-            echo "    ✓ ${skill}"
+            if cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/tool-creators/skills/" 2>/dev/null; then
+                echo "    ✓ ${skill}"
+                ((skills_moved++))
+            else
+                log_error "복사 실패: ${skill}"
+                ((skills_failed++))
+            fi
+        else
+            log_warning "소스 없음: ${skill}"
         fi
     done
 
@@ -139,8 +215,15 @@ move_skills() {
     )
     for skill in "${qr_skills[@]}"; do
         if [ -d "${SRC_DIR}/skills/${skill}" ]; then
-            cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/quality-review/skills/"
-            echo "    ✓ ${skill}"
+            if cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/quality-review/skills/" 2>/dev/null; then
+                echo "    ✓ ${skill}"
+                ((skills_moved++))
+            else
+                log_error "복사 실패: ${skill}"
+                ((skills_failed++))
+            fi
+        else
+            log_warning "소스 없음: ${skill}"
         fi
     done
 
@@ -153,8 +236,15 @@ move_skills() {
     )
     for skill in "${ai_skills[@]}"; do
         if [ -d "${SRC_DIR}/skills/${skill}" ]; then
-            cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/ai-integration/skills/"
-            echo "    ✓ ${skill}"
+            if cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/ai-integration/skills/" 2>/dev/null; then
+                echo "    ✓ ${skill}"
+                ((skills_moved++))
+            else
+                log_error "복사 실패: ${skill}"
+                ((skills_failed++))
+            fi
+        else
+            log_warning "소스 없음: ${skill}"
         fi
     done
 
@@ -166,19 +256,41 @@ move_skills() {
     )
     for skill in "${pe_skills[@]}"; do
         if [ -d "${SRC_DIR}/skills/${skill}" ]; then
-            cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/prompt-enhancement/skills/"
-            echo "    ✓ ${skill}"
+            if cp -r "${SRC_DIR}/skills/${skill}" "${PLUGINS_DIR}/prompt-enhancement/skills/" 2>/dev/null; then
+                echo "    ✓ ${skill}"
+                ((skills_moved++))
+            else
+                log_error "복사 실패: ${skill}"
+                ((skills_failed++))
+            fi
+        else
+            log_warning "소스 없음: ${skill}"
         fi
     done
 
     # utilities
     log_step "utilities (1개 스킬)"
     if [ -d "${SRC_DIR}/skills/route-tester" ]; then
-        cp -r "${SRC_DIR}/skills/route-tester" "${PLUGINS_DIR}/utilities/skills/"
-        echo "    ✓ route-tester"
+        if cp -r "${SRC_DIR}/skills/route-tester" "${PLUGINS_DIR}/utilities/skills/" 2>/dev/null; then
+            echo "    ✓ route-tester"
+            ((skills_moved++))
+        else
+            log_error "복사 실패: route-tester"
+            ((skills_failed++))
+        fi
+    else
+        log_warning "소스 없음: route-tester"
     fi
 
-    log_success "총 23개 스킬 이동 완료"
+    # Summary
+    log_success "스킬 이동 완료: ${skills_moved}개 성공, ${skills_failed}개 실패"
+
+    if [ $skills_failed -gt 0 ]; then
+        log_error "일부 스킬 이동 실패 - 마이그레이션 중단"
+        return 1
+    fi
+
+    save_checkpoint "phase2"
     echo
 }
 
@@ -186,6 +298,11 @@ move_skills() {
 # Phase 3: Move Commands
 ###############################################################################
 move_commands() {
+    if is_phase_completed "phase3"; then
+        log_warning "Phase 3 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 3: 커맨드 이동"
 
     log_step "workflow-automation (4개 커맨드)"
@@ -196,14 +313,23 @@ move_commands() {
         "workflow-complex.md"
     )
 
+    local commands_moved=0
     for cmd in "${commands[@]}"; do
         if [ -f "${SRC_DIR}/commands/${cmd}" ]; then
-            cp "${SRC_DIR}/commands/${cmd}" "${PLUGINS_DIR}/workflow-automation/commands/"
-            echo "    ✓ ${cmd}"
+            if cp "${SRC_DIR}/commands/${cmd}" "${PLUGINS_DIR}/workflow-automation/commands/" 2>/dev/null; then
+                echo "    ✓ ${cmd}"
+                ((commands_moved++))
+            else
+                log_error "복사 실패: ${cmd}"
+                return 1
+            fi
+        else
+            log_warning "소스 없음: ${cmd}"
         fi
     done
 
-    log_success "4개 커맨드 이동 완료"
+    log_success "${commands_moved}개 커맨드 이동 완료"
+    save_checkpoint "phase3"
     echo
 }
 
@@ -211,23 +337,45 @@ move_commands() {
 # Phase 4: Move Agents
 ###############################################################################
 move_agents() {
+    if is_phase_completed "phase4"; then
+        log_warning "Phase 4 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 4: 에이전트 이동"
+
+    local agents_moved=0
 
     log_step "workflow-automation: workflow-orchestrator"
     if [ -f "${SRC_DIR}/agents/workflow-orchestrator.md" ]; then
-        cp "${SRC_DIR}/agents/workflow-orchestrator.md" "${PLUGINS_DIR}/workflow-automation/agents/"
-        echo "    ✓ workflow-orchestrator.md"
+        if cp "${SRC_DIR}/agents/workflow-orchestrator.md" "${PLUGINS_DIR}/workflow-automation/agents/" 2>/dev/null; then
+            echo "    ✓ workflow-orchestrator.md"
+            ((agents_moved++))
+        else
+            log_error "복사 실패: workflow-orchestrator.md"
+            return 1
+        fi
+    else
+        log_warning "소스 없음: workflow-orchestrator.md"
     fi
 
     log_step "quality-review: code-reviewer, architect"
     for agent in "code-reviewer.md" "architect.md"; do
         if [ -f "${SRC_DIR}/agents/${agent}" ]; then
-            cp "${SRC_DIR}/agents/${agent}" "${PLUGINS_DIR}/quality-review/agents/"
-            echo "    ✓ ${agent}"
+            if cp "${SRC_DIR}/agents/${agent}" "${PLUGINS_DIR}/quality-review/agents/" 2>/dev/null; then
+                echo "    ✓ ${agent}"
+                ((agents_moved++))
+            else
+                log_error "복사 실패: ${agent}"
+                return 1
+            fi
+        else
+            log_warning "소스 없음: ${agent}"
         fi
     done
 
-    log_success "3개 에이전트 이동 완료"
+    log_success "${agents_moved}개 에이전트 이동 완료"
+    save_checkpoint "phase4"
     echo
 }
 
@@ -235,6 +383,11 @@ move_agents() {
 # Phase 5: Create plugin.json files
 ###############################################################################
 create_plugin_json() {
+    if is_phase_completed "phase5"; then
+        log_warning "Phase 5 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 5: plugin.json 생성"
 
     # workflow-automation
@@ -359,6 +512,7 @@ EOF
 EOF
     log_success "utilities"
 
+    save_checkpoint "phase5"
     echo
 }
 
@@ -366,6 +520,11 @@ EOF
 # Phase 6: Update marketplace.json
 ###############################################################################
 update_marketplace_json() {
+    if is_phase_completed "phase6"; then
+        log_warning "Phase 6 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 6: marketplace.json 업데이트"
 
     cat > "${ROOT_DIR}/.claude-plugin/marketplace.json" <<'EOF'
@@ -425,7 +584,14 @@ update_marketplace_json() {
 }
 EOF
 
+    # Validate JSON
+    if ! node -e "JSON.parse(require('fs').readFileSync('${ROOT_DIR}/.claude-plugin/marketplace.json'))" 2>/dev/null; then
+        log_error "marketplace.json JSON 오류"
+        return 1
+    fi
+
     log_success "marketplace.json 업데이트 완료"
+    save_checkpoint "phase6"
     echo
 }
 
@@ -433,17 +599,26 @@ EOF
 # Phase 7: Copy hooks to root
 ###############################################################################
 copy_hooks() {
+    if is_phase_completed "phase7"; then
+        log_warning "Phase 7 이미 완료됨 (스킵)"
+        return 0
+    fi
+
     log "Phase 7: hooks 복사 (루트 유지)"
 
     mkdir -p "${ROOT_DIR}/hooks"
 
     if [ -d "${SRC_DIR}/hooks" ]; then
-        cp -r "${SRC_DIR}/hooks/"* "${ROOT_DIR}/hooks/" 2>/dev/null || true
-        log_success "hooks 디렉토리 복사 완료"
+        if cp -r "${SRC_DIR}/hooks/"* "${ROOT_DIR}/hooks/" 2>/dev/null; then
+            log_success "hooks 디렉토리 복사 완료"
+        else
+            log_warning "일부 hooks 파일 복사 실패 (무시)"
+        fi
     else
         log_warning "src/hooks 디렉토리 없음"
     fi
 
+    save_checkpoint "phase7"
     echo
 }
 
@@ -537,32 +712,60 @@ print_summary() {
 main() {
     echo
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
-    echo -e "${BLUE}  Multi-Plugin Migration${NC}"
+    echo -e "${BLUE}  Multi-Plugin Migration (Enhanced)${NC}"
     echo -e "${BLUE}  23 skills → 7 independent plugins${NC}"
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo
 
+    # Initialize checkpoint file
+    if [ ! -f "$CHECKPOINT_FILE" ]; then
+        touch "$CHECKPOINT_FILE"
+        log_step "체크포인트 파일 초기화: $CHECKPOINT_FILE"
+    else
+        log_warning "이전 체크포인트 발견 - 중단된 마이그레이션 재개"
+        cat "$CHECKPOINT_FILE"
+        echo
+    fi
+
     # Check if src/ exists
     if [ ! -d "${SRC_DIR}" ]; then
         log_error "src/ 디렉토리가 없습니다"
+        echo "src/ 복원 방법:"
+        echo "  git checkout 990ed11 -- src/"
         exit 1
     fi
 
-    # Execute phases
-    create_plugin_directories
-    move_skills
-    move_commands
-    move_agents
-    create_plugin_json
-    update_marketplace_json
-    copy_hooks
+    # Pre-flight checks
+    log_step "사전 확인: node 설치 여부"
+    if ! command -v node &> /dev/null; then
+        log_error "node.js가 설치되어 있지 않습니다"
+        exit 1
+    fi
+    log_success "node.js 사용 가능"
+    echo
+
+    # Execute phases with error handling
+    set +e  # Don't exit on error for individual phases
+
+    create_plugin_directories || { log_error "Phase 1 실패"; exit 1; }
+    move_skills || { log_error "Phase 2 실패"; exit 1; }
+    move_commands || { log_error "Phase 3 실패"; exit 1; }
+    move_agents || { log_error "Phase 4 실패"; exit 1; }
+    create_plugin_json || { log_error "Phase 5 실패"; exit 1; }
+    update_marketplace_json || { log_error "Phase 6 실패"; exit 1; }
+    copy_hooks || { log_error "Phase 7 실패"; exit 1; }
+
+    set -e  # Re-enable exit on error
 
     # Validation
     if validate_migration; then
+        # Clean up checkpoint file on success
+        rm -f "$CHECKPOINT_FILE"
         print_summary
         exit 0
     else
-        log_error "마이그레이션 실패"
+        log_error "마이그레이션 검증 실패"
+        log_warning "체크포인트 파일 유지: $CHECKPOINT_FILE"
         exit 1
     fi
 }
