@@ -1,30 +1,18 @@
 {
   "name": "inchan-cc-skills",
   "owner": {
-    "name": "inchan",
-    "email": "",
-    "url": "https://github.com/inchan"
+    "name": "inchan"
   },
   "metadata": {
-    "description": "Comprehensive Claude Code extensions: 23 skills, 4 commands, 3 hooks, 3 agents for workflow automation and development guidelines",
-    "homepage": "https://github.com/inchan/cc-skills",
-    "repository": "https://github.com/inchan/cc-skills",
-    "license": "MIT",
-    "tags": [
-      "workflow",
-      "automation",
-      "guidelines",
-      "agents",
-      "productivity",
-      "task-orchestration"
-    ]
+    "description": "Plugins by inchan",
+    "homepage": "https://github.com/inchan/cc-skills"
   },
   "plugins": [
     {
       "name": "cc-skills",
       "version": "1.4.0",
       "source": "./plugin",
-      "description": "Complete skills collection including workflow management, development guidelines, and automation tools"
+      "description": "Claude Code skills and hooks collection - extending Claude Code with specialized workflows, agents, and development guidelines"
     }
   ]
 }
