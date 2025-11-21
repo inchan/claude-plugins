@@ -24,7 +24,9 @@ const colors = {
 const rootDir = path.resolve(__dirname, '..');
 const srcDir = path.join(rootDir, 'src');
 const pluginDir = path.join(rootDir, 'plugin');
-const pluginJsonPath = path.join(rootDir, '.claude-plugin', 'plugin.json');
+const srcPluginJsonPath = path.join(rootDir, '.claude-plugin', 'plugin.json');
+const destPluginDir = path.join(pluginDir, '.claude-plugin');
+const destPluginJsonPath = path.join(destPluginDir, 'plugin.json');
 
 // Counters for stats
 const stats = {
@@ -134,7 +136,7 @@ async function build() {
     }
 
     // Validate plugin.json
-    if (!validateJson(pluginJsonPath, 'plugin.json')) {
+    if (!validateJson(srcPluginJsonPath, 'plugin.json')) {
       throw new Error('plugin.json 검증 실패');
     }
 
@@ -158,11 +160,17 @@ async function build() {
       }
     }
 
-    // Step 4: Copy and update plugin.json
+    // Step 4: Copy and update plugin.json to .claude-plugin/
     log('\n4. 메타데이터 파일 복사 중...', 'dim');
-    const pluginJsonContent = JSON.parse(fs.readFileSync(pluginJsonPath, 'utf8'));
 
-    // Update paths to remove './src/' prefix
+    // Create .claude-plugin directory in plugin/
+    if (!fs.existsSync(destPluginDir)) {
+      fs.mkdirSync(destPluginDir, { recursive: true });
+    }
+
+    const pluginJsonContent = JSON.parse(fs.readFileSync(srcPluginJsonPath, 'utf8'));
+
+    // Update paths to remove './src/' prefix (agents and hooks paths)
     if (pluginJsonContent.agents) {
       pluginJsonContent.agents = pluginJsonContent.agents.map(path =>
         path.replace('./src/', './')
@@ -172,12 +180,13 @@ async function build() {
       pluginJsonContent.hooks = pluginJsonContent.hooks.replace('./src/', './');
     }
 
+    // Write to plugin/.claude-plugin/plugin.json
     fs.writeFileSync(
-      path.join(pluginDir, 'plugin.json'),
+      destPluginJsonPath,
       JSON.stringify(pluginJsonContent, null, 2) + '\n'
     );
     stats.files++;
-    log('   ✓ plugin.json 복사 및 경로 수정 완료', 'green');
+    log('   ✓ plugin.json 복사 및 경로 수정 완료 (.claude-plugin/plugin.json)', 'green');
 
     // Step 5: Copy documentation files (optional)
     log('\n5. 문서 파일 복사 중...', 'dim');
@@ -196,7 +205,7 @@ async function build() {
     // Step 6: Verify essential files
     log('\n6. 빌드 결과 검증 중...', 'dim');
     const essentialFiles = [
-      'plugin.json',
+      '.claude-plugin/plugin.json',
       'skills/skill-rules.json',
       'hooks/hooks.json'
     ];

@@ -10,27 +10,21 @@
     "homepage": "https://github.com/inchan/cc-skills",
     "repository": "https://github.com/inchan/cc-skills",
     "license": "MIT",
-    "tags": ["workflow", "automation", "guidelines", "agents", "productivity", "task-orchestration"]
+    "tags": [
+      "workflow",
+      "automation",
+      "guidelines",
+      "agents",
+      "productivity",
+      "task-orchestration"
+    ]
   },
   "plugins": [
     {
       "name": "cc-skills",
-      "source": "./plugin",
       "version": "1.4.0",
-      "description": "Complete skills collection including workflow management, development guidelines, and automation tools",
-      "author": {
-        "name": "inchan"
-      },
-      "keywords": [
-        "skills",
-        "workflows",
-        "agents",
-        "hooks",
-        "productivity",
-        "automation",
-        "development-guidelines",
-        "task-orchestration"
-      ]
+      "source": "./plugin",
+      "description": "Complete skills collection including workflow management, development guidelines, and automation tools"
     }
   ]
 }
