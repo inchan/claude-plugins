@@ -1,34 +1,46 @@
 # CLAUDE.md
 
 ---
-version: 2.0.0
-last_updated: 2025-11-24
+version: 0.0.1
+status: pre-release
+last_updated: 2025-11-25
 ---
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Multi-Plugin Architecture (v2.0.0)
+> **⚠️ Pre-release**: 현재 v0.0.1 개발 버전입니다. 정식 릴리스는 v1.0.0부터 시작됩니다.
 
-이 프로젝트는 anthropics/claude-code 패턴을 따라 **7개 독립 플러그인**으로 구성됩니다.
+## Multi-Plugin Architecture (Pre-release)
+
+이 프로젝트는 anthropics/claude-code 패턴을 따라 **8개 독립 플러그인**으로 구성됩니다.
 
 ### 플러그인 목록
 
-| 플러그인 | 스킬 수 | 설명 |
+| 플러그인 | 타입 | 설명 |
 |---------|--------|------|
-| **workflow-automation** | 7 | 복잡도 기반 작업 라우팅 (순차/병렬/동적) |
-| **dev-guidelines** | 3 | Frontend/Backend 개발 패턴, 에러 추적 |
-| **tool-creators** | 6 | Skill/Command/Agent/Hook 생성 도구 |
-| **quality-review** | 2 | 5차원 품질 평가, P0/P1/P2 피드백 |
-| **ai-integration** | 3 | 외부 AI CLI 통합 (codex, qwen, aider 등) |
-| **prompt-enhancement** | 2 | 메타 프롬프트 생성, 프롬프트 최적화 |
-| **utilities** | 1 | 유틸리티 도구 (route-tester) |
+| **hooks** | Hooks | Multi-Tier 스킬 자동 활성화 시스템 |
+| **workflow-automation** | 7 Skills | 복잡도 기반 작업 라우팅 (순차/병렬/동적) |
+| **dev-guidelines** | 3 Skills | Frontend/Backend 개발 패턴, 에러 추적 |
+| **tool-creators** | 6 Skills | Skill/Command/Agent/Hook 생성 도구 |
+| **quality-review** | 2 Skills | 5차원 품질 평가, P0/P1/P2 피드백 |
+| **ai-integration** | 3 Skills | 외부 AI CLI 통합 (codex, qwen, aider 등) |
+| **prompt-enhancement** | 2 Skills | 메타 프롬프트 생성, 프롬프트 최적화 |
+| **utilities** | 1 Skill | 유틸리티 도구 (route-tester) |
 
-**총계**: 24 스킬, 4 커맨드, 3 에이전트
+**총계**: 24 스킬, 4 커맨드, 3 에이전트, 3 훅
 
 ### 디렉토리 구조
 
 ```
 plugins/
+├── hooks/                  # 🔥 스킬 자동 활성화 시스템
+│   ├── .claude-plugin/plugin.json
+│   ├── skill-activation-hook.sh
+│   ├── lib/               # 공유 라이브러리
+│   ├── matchers/          # Multi-Tier 매칭 엔진
+│   ├── config/            # 설정 (synonyms.json 등)
+│   ├── cache/             # 캐시 디렉토리
+│   └── tests/             # 테스트 스크립트
 ├── workflow-automation/
 │   ├── .claude-plugin/plugin.json
 │   ├── skills/ (7개)
@@ -54,7 +66,6 @@ plugins/
     ├── .claude-plugin/plugin.json
     └── skills/ (1개)
 
-hooks/                      # 전역 hooks (UserPromptSubmit, Stop 등)
 scripts/                    # 유틸리티 스크립트
 .claude-plugin/             # Marketplace 메타데이터
     └── marketplace.json
@@ -108,7 +119,7 @@ plugins/new-plugin/
   "plugins": [
     {
       "name": "new-plugin",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/new-plugin",
       "description": "Plugin description"
     }
@@ -119,9 +130,20 @@ plugins/new-plugin/
 ## Key Architecture Patterns
 
 ### Skill Auto-Activation
+
+**Multi-Tier Matching Pipeline**:
+- **Tier 1**: Keyword Matching (Bash + AWK) - <50ms
+- **Tier 2**: TF-IDF Matching (Node.js) - <150ms
+- **Tier 3**: Semantic Matching (Python) - <400ms
+- **전체 타임아웃**: 500ms 이내
+
+**구성**:
 - **각 플러그인**: `plugins/*/skills/skill-rules.json` - 플러그인별 트리거
-- **전역 훅**: `hooks/skill-activation-hook.sh` - 모든 플러그인 skill-rules.json 통합
-- Priority levels: critical > high > medium > low
+- **전역 훅**: `plugins/hooks/skill-activation-hook.sh` - Multi-Tier 매칭 시스템
+- **동의어 사전**: `plugins/hooks/config/synonyms.json` - 한글-영어 매핑
+- **Priority levels**: critical > high > medium > low
+
+**참고 문서**: [plugins/hooks/INDEX.md](plugins/hooks/INDEX.md)
 
 ### Tool Type Selection Guide
 | Type | When to Use | Example |

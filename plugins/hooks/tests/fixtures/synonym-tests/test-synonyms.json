@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "synonyms": {
+    "debug": ["debugging", "디버그", "디버깅", "bug fix"],
+    "test": ["테스트", "testing", "검증"],
+    "fix": ["수정", "fixing", "repair", "해결"]
+  }
+}

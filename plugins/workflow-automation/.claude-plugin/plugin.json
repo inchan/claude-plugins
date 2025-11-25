@@ -1,6 +1,6 @@
 {
   "name": "workflow-automation",
-  "version": "2.0.0",
+  "version": "0.0.1",
   "description": "Task orchestration with complexity-based routing (sequential/parallel/dynamic)",
   "author": {
     "name": "inchan",

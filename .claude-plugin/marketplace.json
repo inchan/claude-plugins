@@ -10,57 +10,51 @@
   "plugins": [
     {
       "name": "cc-skills-hooks",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/hooks",
-      "description": "Skill activation hooks for all CC-Skills plugins"
+      "description": "Multi-Tier intelligent skill activation system (Keyword + TF-IDF + Semantic matching)"
     },
     {
       "name": "workflow-automation",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/workflow-automation",
       "description": "Task orchestration with complexity-based routing"
     },
     {
       "name": "dev-guidelines",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/dev-guidelines",
       "description": "Frontend/Backend development patterns"
     },
     {
       "name": "tool-creators",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/tool-creators",
       "description": "Create Skills/Commands/Agents/Hooks"
     },
     {
       "name": "quality-review",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/quality-review",
       "description": "Code quality evaluation and review"
     },
     {
       "name": "ai-integration",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/ai-integration",
       "description": "External AI CLI integration"
     },
     {
       "name": "prompt-enhancement",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/prompt-enhancement",
       "description": "Meta-prompt generation"
     },
     {
       "name": "utilities",
-      "version": "2.0.0",
+      "version": "0.0.1",
       "source": "./plugins/utilities",
       "description": "Utility tools"
-    },
-    {
-      "name": "all",
-      "version": "1.0.0",
-      "source": "./plugins/all",
-      "description": "Meta-plugin for installing all cc-skills plugins at once"
     }
   ]
 }

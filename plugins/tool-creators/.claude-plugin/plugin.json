@@ -1,6 +1,6 @@
 {
   "name": "tool-creators",
-  "version": "2.0.0",
+  "version": "0.0.1",
   "description": "Create Skills, Commands, Subagents, and Hooks following Anthropic best practices",
   "author": {
     "name": "inchan",

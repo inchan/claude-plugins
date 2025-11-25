@@ -1,0 +1,10 @@
+{
+  "skills": {
+    "skill-2": {
+      "priority": "medium",
+      "promptTriggers": {
+        "keywords": ["test", "sample"]
+      }
+    }
+  }
+}

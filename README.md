@@ -1,29 +1,32 @@
-# CC-Skills v2.0.0
+# CC-Skills v0.0.1 (Pre-release)
 
 Claude Code용 모듈형 플러그인 마켓플레이스 - 워크플로우 자동화, 개발 가이드라인, 품질 도구
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/inchan/cc-skills/releases)
+[![Version](https://img.shields.io/badge/version-0.0.1--pre--release-orange.svg)](https://github.com/inchan/cc-skills/releases)
 
 ---
 
-## 🚀 v2.0.0 Multi-Plugin Architecture
+## 🚀 Multi-Plugin Architecture (Pre-release)
 
-anthropics/claude-code 패턴을 따라 **7개 독립 플러그인**으로 재구성되었습니다.
+anthropics/claude-code 패턴을 따라 **8개 독립 플러그인**으로 구성됩니다.
+
+> **⚠️ Pre-release**: 현재 v0.0.1 개발 버전입니다. 정식 릴리스는 v1.0.0부터 시작됩니다.
 
 ### 📦 플러그인 목록
 
-| 플러그인 | 스킬 | 설명 | 문서 |
+| 플러그인 | 타입 | 설명 | 문서 |
 |---------|-----|------|------|
-| [workflow-automation](plugins/workflow-automation) | 7 | 복잡도 기반 작업 라우팅 | [README](plugins/workflow-automation/README.md) |
-| [dev-guidelines](plugins/dev-guidelines) | 3 | Frontend/Backend 개발 패턴 | [README](plugins/dev-guidelines/README.md) |
-| [tool-creators](plugins/tool-creators) | 6 | Skill/Command/Agent/Hook 생성 | [README](plugins/tool-creators/README.md) |
-| [quality-review](plugins/quality-review) | 2 | 5차원 품질 평가 | [README](plugins/quality-review/README.md) |
-| [ai-integration](plugins/ai-integration) | 3 | 외부 AI CLI 통합 | [README](plugins/ai-integration/README.md) |
-| [prompt-enhancement](plugins/prompt-enhancement) | 2 | 메타 프롬프트 생성 | [README](plugins/prompt-enhancement/README.md) |
-| [utilities](plugins/utilities) | 1 | 유틸리티 도구 | [README](plugins/utilities/README.md) |
+| [hooks](plugins/hooks) | Hooks | Multi-Tier 스킬 자동 활성화 시스템 | [INDEX](plugins/hooks/INDEX.md) |
+| [workflow-automation](plugins/workflow-automation) | 7 Skills | 복잡도 기반 작업 라우팅 | [README](plugins/workflow-automation/README.md) |
+| [dev-guidelines](plugins/dev-guidelines) | 3 Skills | Frontend/Backend 개발 패턴 | [README](plugins/dev-guidelines/README.md) |
+| [tool-creators](plugins/tool-creators) | 6 Skills | Skill/Command/Agent/Hook 생성 | [README](plugins/tool-creators/README.md) |
+| [quality-review](plugins/quality-review) | 2 Skills | 5차원 품질 평가 | [README](plugins/quality-review/README.md) |
+| [ai-integration](plugins/ai-integration) | 3 Skills | 외부 AI CLI 통합 | [README](plugins/ai-integration/README.md) |
+| [prompt-enhancement](plugins/prompt-enhancement) | 2 Skills | 메타 프롬프트 생성 | [README](plugins/prompt-enhancement/README.md) |
+| [utilities](plugins/utilities) | 1 Skill | 유틸리티 도구 | [README](plugins/utilities/README.md) |
 
-**총계**: 24 스킬, 4 커맨드, 3 에이전트
+**총계**: 24 스킬, 4 커맨드, 3 에이전트, 3 훅
 
 ---
 
@@ -117,6 +120,14 @@ skill-generator-tool (의도 분석)
 
 ```
 plugins/
+├── hooks/                  # 🔥 스킬 자동 활성화 시스템
+│   ├── .claude-plugin/
+│   │   └── plugin.json
+│   ├── skill-activation-hook.sh
+│   ├── lib/               # 공유 라이브러리
+│   ├── matchers/          # Multi-Tier 매칭 엔진
+│   ├── config/            # 설정 파일
+│   └── cache/             # 캐시 디렉토리
 ├── workflow-automation/    # 워크플로우 자동화
 │   ├── .claude-plugin/
 │   │   └── plugin.json
@@ -129,10 +140,6 @@ plugins/
 ├── ai-integration/         # AI 통합
 ├── prompt-enhancement/     # 프롬프트 최적화
 └── utilities/              # 유틸리티
-
-hooks/                      # 전역 hooks
-├── skill-activation-hook.sh
-└── hooks.json
 
 .claude-plugin/
 └── marketplace.json        # 마켓플레이스 메타데이터
@@ -249,4 +256,4 @@ MIT License - see [LICENSE](LICENSE) file
 ![GitHub forks](https://img.shields.io/github/forks/inchan/cc-skills?style=social)
 ![GitHub issues](https://img.shields.io/github/issues/inchan/cc-skills)
 
-**v2.0.0** - Multi-Plugin Architecture Release 🎉
+**v0.0.1 (Pre-release)** - Multi-Plugin Architecture 🚧

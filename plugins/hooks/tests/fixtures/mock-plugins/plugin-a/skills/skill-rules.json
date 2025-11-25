@@ -1,0 +1,10 @@
+{
+  "skills": {
+    "skill-1": {
+      "priority": "high",
+      "promptTriggers": {
+        "keywords": ["test", "example"]
+      }
+    }
+  }
+}

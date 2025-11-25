@@ -1,0 +1,121 @@
+{
+  "version": "3.0.0",
+  "description": "Matcher configuration for Skill Activation Hook",
+
+  "performance": {
+    "maxExecutionMs": 500,
+    "tier1ThresholdMax": 50,
+    "tier2ThresholdMax": 20,
+    "tier3ThresholdMax": 10,
+    "topKResults": 5,
+    "description": "Performance thresholds in milliseconds"
+  },
+
+  "caching": {
+    "enabled": true,
+    "maxAgeSeconds": 3600,
+    "cacheDir": "cache",
+    "fileIndexName": "file-index.txt",
+    "metadataFileName": "skill-metadata.json",
+    "description": "Cache configuration (TTL: 1 hour by default)"
+  },
+
+  "matchers": {
+    "tier1": {
+      "enabled": true,
+      "method": "keyword",
+      "timeoutMs": 50,
+      "minScore": 0.0,
+      "description": "Fast keyword matching using AWK",
+      "fallbackToTier2": true
+    },
+    "tier2": {
+      "enabled": true,
+      "method": "tfidf",
+      "timeoutMs": 100,
+      "minScore": 0.1,
+      "description": "TF-IDF based statistical matching using Node.js",
+      "fallbackToTier3": true,
+      "nodeScript": "matchers/tfidf-matcher.js"
+    },
+    "tier3": {
+      "enabled": true,
+      "method": "semantic",
+      "timeoutMs": 500,
+      "minScore": 0.1,
+      "description": "Semantic matching using sentence transformers",
+      "pythonScript": "matchers/semantic-matcher.py",
+      "model": "all-MiniLM-L6-v2",
+      "dimensions": 384
+    }
+  },
+
+  "scoring": {
+    "weights": {
+      "keyword": 1.0,
+      "tfidf": 1.5,
+      "semantic": 2.0,
+      "description": "Score multipliers for each matching tier"
+    },
+    "priority": {
+      "critical": 4,
+      "high": 3,
+      "medium": 2,
+      "low": 1,
+      "description": "Priority level scores"
+    },
+    "enforcement": {
+      "suggest": "suggest",
+      "block": "block",
+      "warn": "warn",
+      "description": "Enforcement type mapping"
+    }
+  },
+
+  "synonyms": {
+    "enabled": true,
+    "configFile": "config/synonyms.json",
+    "expandKeywords": true,
+    "description": "Synonym expansion for keyword matching"
+  },
+
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "logFile": "/tmp/claude-skill-activation.log",
+    "debugMode": false,
+    "description": "Logging configuration (set DEBUG=1 to enable debug mode)"
+  },
+
+  "output": {
+    "format": "json",
+    "includeMetadata": true,
+    "includeDebugInfo": false,
+    "prettyPrint": false,
+    "description": "Output format configuration"
+  },
+
+  "limits": {
+    "maxSkillsToProcess": 100,
+    "maxSkillsToReturn": 10,
+    "maxPromptLength": 1000,
+    "maxDescriptionLength": 500,
+    "description": "Processing limits to prevent performance degradation"
+  },
+
+  "features": {
+    "multiPluginSupport": true,
+    "intentPatternMatching": true,
+    "categoryGrouping": true,
+    "userFeedbackLearning": false,
+    "description": "Feature flags for experimental features"
+  },
+
+  "experimental": {
+    "parallelMatching": false,
+    "gpuAcceleration": false,
+    "mlBasedTuning": false,
+    "distributedCache": false,
+    "description": "Experimental features (not implemented yet)"
+  }
+}
