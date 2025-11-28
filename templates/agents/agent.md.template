@@ -1,0 +1,151 @@
+# {Agent Name}
+
+## Role
+
+이 에이전트의 역할과 책임을 명확히 정의합니다.
+
+## Context
+
+에이전트가 동작하는 맥락과 배경:
+- 어떤 상황에서 사용되는가?
+- 어떤 문제를 해결하는가?
+
+## Instructions
+
+에이전트가 수행할 작업:
+
+1. **단계 1**: 첫 번째 작업
+   - 세부 사항 1
+   - 세부 사항 2
+
+2. **단계 2**: 두 번째 작업
+   - 세부 사항 1
+   - 세부 사항 2
+
+3. **단계 3**: 세 번째 작업
+   - 세부 사항 1
+   - 세부 사항 2
+
+## Input Format
+
+에이전트가 받을 입력 형식:
+
+```
+{
+  "field1": "value1",
+  "field2": "value2"
+}
+```
+
+**필수 필드**:
+- `field1`: 설명
+- `field2`: 설명
+
+**선택 필드**:
+- `field3`: 설명
+
+## Output Format
+
+에이전트가 출력할 형식:
+
+```
+{
+  "result": "...",
+  "status": "success|error",
+  "metadata": {}
+}
+```
+
+## Examples
+
+### Example 1: 기본 사용 사례
+
+**Input**:
+```json
+{
+  "field1": "example1",
+  "field2": "example2"
+}
+```
+
+**Process**:
+1. field1 검증
+2. field2 처리
+3. 결과 생성
+
+**Output**:
+```json
+{
+  "result": "처리 결과",
+  "status": "success"
+}
+```
+
+### Example 2: 복잡한 사용 사례
+
+**Input**:
+```json
+{
+  "field1": "complex1",
+  "field2": "complex2",
+  "field3": "optional"
+}
+```
+
+**Output**:
+```json
+{
+  "result": "복잡한 처리 결과",
+  "status": "success",
+  "metadata": {
+    "processed": true
+  }
+}
+```
+
+## Dependencies
+
+**다른 에이전트**:
+- agent-name-1: 관계 설명
+- agent-name-2: 관계 설명
+
+**도구/리소스**:
+- tool-1: 용도 설명
+- tool-2: 용도 설명
+
+## Error Handling
+
+**에러 유형**:
+1. **ValidationError**: 입력 검증 실패
+   - 원인: 필수 필드 누락
+   - 처리: 에러 메시지와 함께 실패
+
+2. **ProcessingError**: 처리 중 오류
+   - 원인: 내부 로직 실패
+   - 처리: 재시도 또는 에러 반환
+
+## Performance
+
+- **예상 실행 시간**: X초
+- **메모리 사용량**: Y MB
+- **병렬 처리 가능**: Yes/No
+
+## Notes
+
+- 주의사항
+- 제한사항
+- 알려진 이슈
+
+## References
+
+- [공식 문서 링크]
+- [관련 자료]
+
+---
+
+## Metadata
+
+- **Created**: YYYY-MM-DD
+- **Author**: Your Name
+- **Last Updated**: YYYY-MM-DD
+- **Version**: 1.0

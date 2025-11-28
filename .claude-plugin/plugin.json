@@ -1,0 +1,41 @@
+{
+  "name": "cc-skills",
+  "version": "0.1.0",
+  "description": "Claude Code 확장 기능 모음 - Skills, Hooks, Agents, Commands 개발 및 배포",
+  "author": "CC-Skills Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/cc-skills"
+  },
+  "main": "index.js",
+  "keywords": [
+    "claude-code",
+    "skills",
+    "hooks",
+    "agents",
+    "commands",
+    "productivity"
+  ],
+  "engines": {
+    "claude-code": ">=1.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm run test:skills && npm run test:hooks",
+    "test:skills": "node tests/skills/runner.js",
+    "test:hooks": "node tests/hooks/runner.js",
+    "validate": "node scripts/validate.js",
+    "build": "node scripts/build.js"
+  },
+  "files": [
+    "skills/",
+    "hooks/",
+    "agents/",
+    "commands/",
+    "rules/",
+    "templates/",
+    "docs/"
+  ]
+}

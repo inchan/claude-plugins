@@ -1,18 +1,43 @@
 {
-  "name": "inchan-cc-skills",
-  "owner": {
-    "name": "inchan"
+  "id": "cc-skills",
+  "name": "CC-Skills",
+  "displayName": "Claude Code Skills Collection",
+  "description": "공식 문서 기반으로 개발된 Claude Code 확장 기능 모음",
+  "version": "0.1.0",
+  "publisher": "cc-skills-team",
+  "category": "productivity",
+  "tags": [
+    "skills",
+    "hooks",
+    "agents",
+    "commands",
+    "automation",
+    "productivity"
+  ],
+  "icon": "assets/icon.png",
+  "screenshots": [
+    "assets/screenshots/1.png",
+    "assets/screenshots/2.png"
+  ],
+  "readme": "README.md",
+  "changelog": "CHANGELOG.md",
+  "license": "MIT",
+  "homepage": "https://github.com/your-org/cc-skills",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/cc-skills"
   },
+  "bugs": {
+    "url": "https://github.com/your-org/cc-skills/issues"
+  },
+  "pricing": "free",
+  "featured": false,
+  "preview": true,
   "metadata": {
-    "description": "Modular Claude Code plugins collection - workflow automation, dev guidelines, quality tools",
-    "homepage": "https://github.com/inchan/cc-skills"
-  },
-  "plugins": [
-    {
-      "name": "cc-skills-hooks",
-      "version": "0.0.1",
-      "source": "./plugins/hooks",
-      "description": "Multi-Tier intelligent skill activation system (Keyword + TF-IDF + Semantic matching)"
-    }
-  ]
+    "created": "2025-11-28",
+    "lastUpdated": "2025-11-28",
+    "downloads": 0,
+    "rating": 0,
+    "reviews": 0
+  }
 }

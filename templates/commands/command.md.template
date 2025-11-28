@@ -1,0 +1,178 @@
+# /{command-name}
+
+## Description
+
+커맨드에 대한 간단한 설명을 작성합니다.
+
+## Usage
+
+```
+/{command-name} [options] <required-arg> [optional-arg]
+```
+
+## Arguments
+
+### Required Arguments
+
+- `required-arg`: 필수 인자 설명
+
+### Optional Arguments
+
+- `--option1`, `-o`: 옵션 1 설명
+- `--option2 <value>`: 옵션 2 설명 (값 필요)
+- `[optional-arg]`: 선택적 인자 설명
+
+## Options
+
+| Option | Short | Description | Default |
+|--------|-------|-------------|---------|
+| `--verbose` | `-v` | 상세 출력 | `false` |
+| `--output <path>` | `-o` | 출력 경로 지정 | `.` |
+| `--force` | `-f` | 강제 실행 | `false` |
+
+## Examples
+
+### Example 1: 기본 사용
+
+```
+/{command-name} arg1
+```
+
+**설명**: 기본 동작 설명
+
+**출력**:
+```
+예상 출력 결과
+```
+
+### Example 2: 옵션 사용
+
+```
+/{command-name} --option1 arg1 arg2
+```
+
+**설명**: 옵션 사용 시 동작 설명
+
+**출력**:
+```
+옵션 적용된 출력 결과
+```
+
+### Example 3: 복합 사용
+
+```
+/{command-name} -v --output ./output arg1
+```
+
+**설명**: 여러 옵션 조합 사용
+
+**출력**:
+```
+상세 출력 결과
+```
+
+## Implementation
+
+커맨드 실행 시 수행할 작업:
+
+### 1. 입력 검증
+- 필수 인자 확인
+- 옵션 유효성 검증
+- 파일/디렉토리 존재 확인
+
+### 2. 전처리
+- 환경 설정
+- 필요한 리소스 로드
+- 임시 파일 생성
+
+### 3. 메인 로직
+1. 단계 1 설명
+2. 단계 2 설명
+3. 단계 3 설명
+
+### 4. 후처리
+- 결과 저장
+- 임시 파일 정리
+- 상태 업데이트
+
+### 5. 출력
+- 결과 포맷팅
+- 성공/실패 메시지
+- 다음 단계 안내
+
+## Output
+
+### Success
+
+```
+✓ 작업 완료
+✓ 결과: /path/to/result
+
+Summary:
+- 처리된 항목: X개
+- 소요 시간: Y초
+```
+
+### Error
+
+```
+✗ 오류 발생: 오류 메시지
+
+Details:
+- 원인: 오류 원인
+- 해결 방법: 해결 제안
+
+Use --help for more information
+```
+
+## Error Handling
+
+### Common Errors
+
+1. **InvalidArgumentError**
+   - **원인**: 잘못된 인자 제공
+   - **메시지**: `Error: Invalid argument 'X'`
+   - **해결**: 올바른 인자 형식 확인
+
+2. **FileNotFoundError**
+   - **원인**: 필요한 파일 없음
+   - **메시지**: `Error: File 'X' not found`
+   - **해결**: 파일 경로 확인
+
+3. **PermissionError**
+   - **원인**: 권한 부족
+   - **메시지**: `Error: Permission denied`
+   - **해결**: 실행 권한 확인
+
+## Prerequisites
+
+- 필요한 도구/라이브러리
+- 환경 변수
+- 권한 요구사항
+
+## Notes
+
+- 주의사항
+- 제한사항
+- 성능 고려사항
+- 알려진 이슈
+
+## See Also
+
+- 관련 커맨드 1
+- 관련 커맨드 2
+- 관련 문서
+
+## References
+
+- [공식 문서 링크]
+- [관련 자료]
+
+---
+
+## Metadata
+
+- **Created**: YYYY-MM-DD
+- **Author**: Your Name
+- **Last Updated**: YYYY-MM-DD
+- **Version**: 1.0

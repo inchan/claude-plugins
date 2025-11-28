@@ -1,0 +1,54 @@
+#!/bin/bash
+#
+# Hook: {hook-name}
+# Event: {event-type}
+# Description: {description}
+#
+# Author: {author}
+# Created: {date}
+#
+
+set -euo pipefail
+
+# 로깅 함수
+log() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" >&2
+}
+
+error() {
+    echo "[$(date +'%Y-%m-%d %H:%M:%S')] ERROR: $*" >&2
+}
+
+# 훅 메인 로직
+process_hook() {
+    local input="$1"
+
+    log "Processing hook with input: $input"
+
+    # 훅 로직 구현
+    # ...
+
+    # 성공 시 출력
+    echo "Hook processed successfully"
+}
+
+# 메인 실행
+main() {
+    local input="${1:-}"
+
+    if [[ -z "$input" ]]; then
+        error "No input provided"
+        return 1
+    fi
+
+    # 훅 처리
+    if ! process_hook "$input"; then
+        error "Hook processing failed"
+        return 1
+    fi
+
+    return 0
+}
+
+# 스크립트 실행
+main "$@"

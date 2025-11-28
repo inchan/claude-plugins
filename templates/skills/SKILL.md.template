@@ -1,0 +1,95 @@
+---
+id: {skill-id}
+version: 1.0
+trigger:
+  keywords: []
+  patterns: []
+priority: 100
+enabled: true
+---
+
+# {Skill Name}
+
+## Description
+
+스킬에 대한 간단한 설명을 작성합니다.
+
+## Trigger Conditions
+
+**Keywords**:
+- keyword1
+- keyword2
+
+**Patterns**:
+- pattern1
+- pattern2
+
+## Instructions
+
+이 스킬이 활성화되었을 때 수행할 작업:
+
+1. 첫 번째 단계
+2. 두 번째 단계
+3. 세 번째 단계
+
+## Input Format
+
+예상되는 입력 형식:
+```
+예제 입력
+```
+
+## Output Format
+
+예상되는 출력 형식:
+```
+예제 출력
+```
+
+## Examples
+
+### Example 1
+**Input**:
+```
+예제 입력 1
+```
+
+**Output**:
+```
+예제 출력 1
+```
+
+### Example 2
+**Input**:
+```
+예제 입력 2
+```
+
+**Output**:
+```
+예제 출력 2
+```
+
+## Dependencies
+
+- 의존하는 다른 스킬
+- 필요한 파일/리소스
+
+## Notes
+
+- 주의사항
+- 제한사항
+- 알려진 이슈
+
+## References
+
+- [공식 문서 링크]
+- [관련 자료]
+
+---
+
+## Metadata
+
+- **Created**: YYYY-MM-DD
+- **Author**: Your Name
+- **Last Updated**: YYYY-MM-DD
