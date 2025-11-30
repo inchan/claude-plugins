@@ -1,13 +1,17 @@
 {
-  "name": "inchan-cc-skills",
+  "name": "inchan-cc-plugins",
   "owner": {
     "name": "inchan"
   },
   "metadata": {
     "description": "TDD 방식의 자동화된 개발 워크플로우. 5개의 전문 에이전트(task-planner, test-writer, implementer, refactorer, reviewer)가 Red-Green-Refactor 사이클을 자동으로 실행합니다.",
-    "homepage": "https://github.com/inchan/cc-skills"
+    "homepage": "https://github.com/inchan/cc-plugins"
   },
   "plugins": [
+    {
+      "name": "all",
+      "source": "./plugins/all"
+    },
     {
       "name": "tdd",
       "source": "./plugins/tdd"
@@ -19,6 +23,10 @@
     {
       "name": "doc-tools",
       "source": "./plugins/doc-tools"
+    },
+    {
+      "name": "outsourcing",
+      "source": "./plugins/outsourcing"
     }
   ]
 }

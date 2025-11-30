@@ -1,0 +1,18 @@
+{
+    "name": "outsourcing",
+    "version": "0.1.0",
+    "description": "MCP를 통해 로컬 CLI에 작업을 아웃소싱하는 플러그인",
+    "author": {
+        "name": "inchan",
+        "url": "https://github.com/inchan"
+    },
+    "skills": [
+        "./../../skills/outsourcing-core/SKILL.md"
+    ],
+    "commands": [
+        "./../../commands/outsource.md"
+    ],
+    "agents": [
+        "./../../agents/outsourcing/outsourcing-agent.md"
+    ]
+}

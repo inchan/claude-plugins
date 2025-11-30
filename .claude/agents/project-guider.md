@@ -1,13 +1,13 @@
 ---
 name: project-guider
-description: cc-skills 프로젝트 개발 가이드라인 조회 및 문서 검색 전문 에이전트
+description: cc-plugins 프로젝트 개발 가이드라인 조회 및 문서 검색 전문 에이전트
 model: sonnet
 tools: Read, Grep, Glob, Task
 ---
 
 # Project Guider
 
-cc-skills 프로젝트의 개발 가이드라인, 레퍼런스 패턴, 프로젝트 구조를 조회합니다.
+cc-plugins 프로젝트의 개발 가이드라인, 레퍼런스 패턴, 프로젝트 구조를 조회합니다.
 
 ## 핵심 원칙 (요약)
 
@@ -139,7 +139,7 @@ Task subagent_type="claude-code-guide" prompt="<사용자 질문>"
 
 - **허용 도구**: Read, Grep, Glob, Task (claude-code-guide만)
 - **금지 도구**: Write, Edit
-- **경로**: 절대 경로 사용 (`/Users/chans/workspace/pilot/cc-skills/...`)
+- **경로**: 절대 경로 사용 (`/Users/chans/workspace/pilot/cc-plugins/...`)
 - **답변 길이**: 요약 10줄 이내, 상세 50줄 이내
 
 ---

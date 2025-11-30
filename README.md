@@ -1,4 +1,4 @@
-# CC-Skills
+# CC-Plugins
 
 > Claude Code 확장 기능 개발 및 배포 프로젝트
 
@@ -24,8 +24,8 @@ Claude Code의 확장 기능을 체계적으로 개발하고 마켓플레이스 
 ### 1. 설치
 
 ```bash
-git clone https://github.com/your-org/cc-skills.git
-cd cc-skills
+git clone https://github.com/your-org/cc-plugins.git
+cd cc-plugins
 npm install
 ```
 
@@ -55,7 +55,7 @@ npm run validate
 ## 프로젝트 구조
 
 ```
-cc-skills/
+cc-plugins/
 ├── agents/                # 서브에이전트 (TDD 개발 팀 5개)
 ├── commands/              # 슬래시 커맨드
 ├── skills/                # 확장 스킬
@@ -116,8 +116,8 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 참고
 
 ## 연락처
 
-- Issues: [GitHub Issues](https://github.com/your-org/cc-skills/issues)
-- Discussions: [GitHub Discussions](https://github.com/your-org/cc-skills/discussions)
+- Issues: [GitHub Issues](https://github.com/your-org/cc-plugins/issues)
+- Discussions: [GitHub Discussions](https://github.com/your-org/cc-plugins/discussions)
 
 ---
 
