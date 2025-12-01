@@ -1,5 +1,5 @@
 ---
-name: document-updater
+name: doc-updater
 description: 문서-코드 불일치 탐지 및 수정 (추적가능성/교차검증/사용자중심/완성도)
 model: haiku
 tools: ["Read", "Grep", "Glob", "Edit", "Write"]
@@ -87,6 +87,7 @@ FOR EACH file IN files:
 **검사 항목**:
 
 1. **파일 참조 검증**
+
    ```
    Grep(pattern="(src|lib|agents|commands)/[a-zA-Z0-9/_-]+\.(ts|js|py|md)")
    → 모든 파일 경로 추출
@@ -97,6 +98,7 @@ FOR EACH file IN files:
    ```
 
 2. **함수/클래스 참조 검증**
+
    ```
    문서에서 `functionName()` 또는 `ClassName` 패턴 추출
 
@@ -109,6 +111,7 @@ FOR EACH file IN files:
 3. **중복 정보 탐지**
 
    **유사도 계산 알고리즘 (라인 기반 Jaccard Index):**
+
    ```
    FUNCTION calculateSimilarity(content1, content2):
        lines1 = content1.split('\n').filter(line => line.trim().length > 0)
@@ -125,6 +128,7 @@ FOR EACH file IN files:
    ```
 
    **중복 탐지:**
+
    ```
    FOR EACH pair IN combinations(files, 2):
        content1 = Read(pair[0])
@@ -143,6 +147,7 @@ FOR EACH file IN files:
 **검사 항목**:
 
 1. **파일:라인 번호 누락**
+
    ```
    IF 문서에 함수/클래스명 언급 AND 파일:라인 번호 없음:
        Grep(pattern="(function|const|class) {name}")
@@ -152,6 +157,7 @@ FOR EACH file IN files:
    ```
 
 2. **API 변경 추적**
+
    ```
    IF 문서에 API 시그니처 설명:
        실제 코드와 비교
@@ -167,6 +173,7 @@ FOR EACH file IN files:
 **검사 항목**:
 
 1. **경고 섹션 누락**
+
    ```
    IF 문서가 CLI/API 레퍼런스:
        Grep(pattern="(⚠️|WARNING|CAUTION|주의)")
@@ -176,6 +183,7 @@ FOR EACH file IN files:
    ```
 
 2. **사용 예시 누락**
+
    ```
    IF 문서가 가이드/튜토리얼:
        Grep(pattern="```")  // 코드 블록 검색
@@ -191,12 +199,14 @@ FOR EACH file IN files:
 **검사 항목**:
 
 1. **빈 문서**
+
    ```
    IF content.trim().length < 50:
        ISSUE: "빈 문서 또는 내용 부족"
    ```
 
 2. **TODO/FIXME 주석**
+
    ```
    Grep(pattern="(TODO|FIXME|XXX):")
    IF found:

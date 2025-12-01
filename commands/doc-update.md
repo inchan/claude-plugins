@@ -92,13 +92,13 @@ ELSE IF path가 파일:
 - `node_modules/`, `.git/`, `.claude/` 하위 파일
 - `CHANGELOG.md`, `LICENSE.md`
 
-### 3. document-updater 에이전트 호출
+### 3. doc-updater 에이전트 호출
 
 **3.1 Task 도구 호출**
 
 ```json
 {
-  "subagent_type": "doc-tools:document-updater",
+  "subagent_type": "doc-tools:doc-updater",
   "model": "haiku",
   "description": "문서 업데이트 검증",
   "prompt": "{
@@ -285,5 +285,5 @@ interface DocUpdateInput {
 
 - **2025-11-30**: 초기 생성
   - 추적가능성/교차검증/사용자중심/완성도 검증
-  - document-updater 에이전트 연동
+  - doc-updater 에이전트 연동
   - haiku 모델 사용으로 비용 절감

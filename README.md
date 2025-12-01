@@ -123,6 +123,12 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 참고
 
 ## 변경 이력
 
+- **2025-12-01**: 문서 업데이트 자동화 도구 추가
+  - `/doc-update` 커맨드 추가 (문서-코드 불일치 자동 탐지/수정)
+  - `doc-updater` 에이전트 추가 (haiku 모델 기반, 4가지 원칙)
+  - 참조 가이드 추가: doc-update-pattern.md, doc-updater-agent-pattern.md
+  - 플러그인 설정 검증 자동화 (validate-plugin-configs.js)
+  - 테스트 및 검증 문서 추가 (tests/README.md)
 - **2025-11-29**: 프로젝트 구조 직접 표기 (TDD 개발 팀 5개 반영)
 - **2025-11-29**: 프로젝트 구조 섹션 참조로 변환 (CLAUDE.md 참조)
 - **2025-11-28**: QUICK_START.md 삭제 - 마켓플레이스 설치 기반으로 불필요, 내용은 docs/references로 이동

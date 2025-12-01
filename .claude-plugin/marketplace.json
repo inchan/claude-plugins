@@ -9,8 +9,35 @@
   },
   "plugins": [
     {
-      "name": "all",
-      "source": "./plugins/all"
+      "name": "cc-plugins",
+      "version": "0.1.0",
+      "description": "모든 스킬, 에이전트, 명령어를 포함하는 통합 플러그인",
+      "author": {
+        "name": "inchan",
+        "url": "https://github.com/inchan"
+      },
+      "source": "./",
+      "skills": [
+        "./skills/search-core/SKILL.md",
+        "./skills/outsourcing-core/SKILL.md"
+      ],
+      "commands": [
+        "./commands/tdd-team.md",
+        "./commands/search.md",
+        "./commands/doc-update.md",
+        "./commands/outsource.md"
+      ],
+      "agents": [
+        "./agents/engineer.md",
+        "./agents/tdd/task-planner.md",
+        "./agents/tdd/test-writer.md",
+        "./agents/tdd/implementer.md",
+        "./agents/tdd/refactorer.md",
+        "./agents/tdd/reviewer.md",
+        "./agents/search/search-agent.md",
+        "./agents/doc-tools/doc-updater.md",
+        "./agents/outsourcing/outsourcing-agent.md"
+      ]
     },
     {
       "name": "tdd",

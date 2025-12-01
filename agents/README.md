@@ -21,7 +21,7 @@ agents/
 │   ├── comprehensive.md    # 종합 조사 리서처
 │   └── best-practice.md    # 모범 사례 전문가
 ├── doc-tools/        # 문서 관리 에이전트
-│   └── document-updater.md # 문서-코드 불일치 탐지/수정
+│   └── doc-updater.md # 문서-코드 불일치 탐지/수정
 └── {agent-name}.md   # 에이전트 프롬프트
 ```
 
@@ -68,7 +68,7 @@ agents/
 
 | 에이전트 | 역할 | 주요 기능 | 모델 |
 |---------|------|----------|------|
-| **document-updater** | 문서-코드 불일치 탐지/수정 | 추적가능성/교차검증/사용자중심/완성도 검증 | haiku |
+| **doc-updater** | 문서-코드 불일치 탐지/수정 | 추적가능성/교차검증/사용자중심/완성도 검증 | haiku |
 
 **사용법**: `/doc-update --scope=all`
 
@@ -96,7 +96,7 @@ agents/
 
 ## 변경 이력
 
-- **2025-11-30**: Documentation Tools 추가 (document-updater 에이전트)
+- **2025-11-30**: Documentation Tools 추가 (doc-updater 에이전트)
   - 문서-코드 불일치 탐지 및 수정 (4가지 원칙 기반)
   - haiku 모델 사용으로 비용 절감
   - `/doc-update` 커맨드와 연동

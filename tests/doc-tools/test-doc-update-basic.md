@@ -2,7 +2,7 @@
 
 ## 목적
 
-`/doc-update` 커맨드와 `document-updater` 에이전트의 기본 동작을 검증합니다.
+`/doc-update` 커맨드와 `doc-updater` 에이전트의 기본 동작을 검증합니다.
 
 ---
 
@@ -20,7 +20,7 @@
 
 **검증 항목**:
 1. TodoWrite로 진행상황 표시
-2. document-updater 에이전트 호출 (haiku 모델)
+2. doc-updater 에이전트 호출 (haiku 모델)
 3. 불일치 항목이 카테고리별로 정렬됨
 
 ---
