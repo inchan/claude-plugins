@@ -28,10 +28,10 @@ Outsourcing Plugin은 MCP(Model Context Protocol)를 활용하여 로컬에 설�
 cd ~/.claude/plugins
 
 # 저장소 클론
-git clone https://github.com/inchan/cc-plugins.git
+git clone https://github.com/inchan/claude-plugins.git
 
 # 또는 특정 플러그인만 링크
-ln -s /path/to/cc-plugins/plugins/outsourcing ~/.claude/plugins/outsourcing
+ln -s /path/to/claude-plugin/plugins/outsourcing ~/.claude/plugins/outsourcing
 ```
 
 ### 수동 설치
@@ -267,7 +267,7 @@ MIT License - [../../LICENSE](../../LICENSE) 참고
 
 ## 기여하기
 
-1. [Issue](https://github.com/inchan/cc-plugins/issues)에서 버그 리포트 또는 기능 제안
+1. [Issue](https://github.com/inchan/claude-plugins/issues)에서 버그 리포트 또는 기능 제안
 2. Fork & Pull Request
 3. [개발 가이드라인](../../docs/guidelines/development.md) 준수
 
@@ -289,8 +289,8 @@ MIT License - [../../LICENSE](../../LICENSE) 참고
 
 ## 문의
 
-- GitHub: [inchan/cc-plugins](https://github.com/inchan/cc-plugins)
-- Issues: [Report a bug](https://github.com/inchan/cc-plugins/issues)
+- GitHub: [inchan/claude-plugins](https://github.com/inchan/claude-plugins)
+- Issues: [Report a bug](https://github.com/inchan/claude-plugins/issues)
 
 ---
 

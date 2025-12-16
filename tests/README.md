@@ -182,7 +182,7 @@ node tests/validate-plugin-configs.js
 **예시:**
 ```
 프로젝트 구조:
-  cc-plugins/                          # 프로젝트 루트
+  claude-plugin/                          # 프로젝트 루트
   ├── .claude-plugin/
   │   └── marketplace.json
   ├── plugins/

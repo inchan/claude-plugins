@@ -8,5 +8,8 @@
     },
     "agents": [
         "./agents/engineer.md"
+    ],
+    "commands": [
+        "./commands/cleanup.md"
     ]
 }

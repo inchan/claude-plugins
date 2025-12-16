@@ -1,6 +1,6 @@
 # TDD 다중 에이전트 패턴
 
-> cc-plugins 프로젝트의 TDD 자동화 패턴
+> claude-plugin 프로젝트의 TDD 자동화 패턴
 
 **구현 위치**: `agents/tdd/`, `commands/tdd-team.md`
 

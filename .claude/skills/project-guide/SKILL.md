@@ -1,9 +1,9 @@
 ---
 name: project-guide
-description: cc-plugins 프로젝트 개발 가이드라인, 레퍼런스 패턴, 프로젝트 구조 조회. Use when Claude needs to (1) Look up development principles (P1-P4, DRY, KISS, YAGNI, SOLID), (2) Find reference patterns for Hooks/Agents/Commands creation, (3) Understand project structure and file locations, (4) Learn how to create Skills/Hooks/Agents/Commands, or (5) Delegate to claude-code-guide for official Claude Code documentation
+description: claude-plugin 프로젝트 개발 가이드라인, 레퍼런스 패턴, 프로젝트 구조 조회. Use when Claude needs to (1) Look up development principles (P1-P4, DRY, KISS, YAGNI, SOLID), (2) Find reference patterns for Hooks/Agents/Commands creation, (3) Understand project structure and file locations, (4) Learn how to create Skills/Hooks/Agents/Commands, or (5) Delegate to claude-code-guide for official Claude Code documentation
 ---
 
-# Project Guide: cc-plugins 프로젝트 개발 도우미
+# Project Guide: claude-plugin 프로젝트 개발 도우미
 
 ## 핵심 지침
 

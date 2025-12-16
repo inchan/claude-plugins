@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-**cc-plugins**는 Claude Code 확장 기능(Skills, Hooks, Agents, Commands)을 개발하고 플러그인으로 배포하는 프로젝트입니다.
+**claude-plugin**는 Claude Code 확장 기능(Skills, Hooks, Agents, Commands)을 개발하고 플러그인으로 배포하는 프로젝트입니다.
 
 프로젝트 상세 소개는 **[README.md](./README.md)** 참고
 
@@ -111,7 +111,7 @@ npm run build
 ## 참고: 프로젝트 구조
 
 ```
-cc-plugins/
+claude-plugin/
 ├── plugins/               # 플러그인 (핵심)
 │   ├── base/              # 공통 에이전트 (engineer)
 │   ├── tdd/               # TDD 개발 팀 (5개 에이전트)
