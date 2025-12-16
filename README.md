@@ -1,4 +1,4 @@
-# CC-Plugins
+# claude-plugin
 
 > Claude Code 확장 기능 개발 및 배포 프로젝트
 
@@ -24,8 +24,8 @@ Claude Code의 확장 기능을 체계적으로 개발하고 마켓플레이스 
 ### 1. 설치
 
 ```bash
-git clone https://github.com/your-org/cc-plugins.git
-cd cc-plugins
+git clone https://github.com/inchan/claude-plugins.git
+cd claude-plugin
 npm install
 ```
 
@@ -55,7 +55,7 @@ npm run validate
 ## 프로젝트 구조
 
 ```
-cc-plugins/
+claude-plugin/
 ├── plugins/               # 플러그인 (핵심)
 │   ├── base/              # 공통 에이전트 (engineer)
 │   ├── tdd/               # TDD 개발 팀 (5개 에이전트)
@@ -119,8 +119,8 @@ MIT License - 자세한 내용은 [LICENSE](LICENSE) 참고
 
 ## 연락처
 
-- Issues: [GitHub Issues](https://github.com/your-org/cc-plugins/issues)
-- Discussions: [GitHub Discussions](https://github.com/your-org/cc-plugins/discussions)
+- Issues: [GitHub Issues](https://github.com/inchan/claude-plugins/issues)
+- Discussions: [GitHub Discussions](https://github.com/inchan/claude-plugins/discussions)
 
 ---
 

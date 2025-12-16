@@ -29,10 +29,10 @@ Base Plugin은 여러 플러그인에서 공통으로 사용할 수 있는 범�
 cd ~/.claude/plugins
 
 # 저장소 클론
-git clone https://github.com/inchan/cc-plugins.git
+git clone https://github.com/inchan/claude-plugins.git
 
 # 또는 특정 플러그인만 링크
-ln -s /path/to/cc-plugins/plugins/base ~/.claude/plugins/base
+ln -s /path/to/claude-plugin/plugins/base ~/.claude/plugins/base
 ```
 
 ---
@@ -69,7 +69,7 @@ ln -s /path/to/cc-plugins/plugins/base ~/.claude/plugins/base
 
 ```json
 {
-  "subagent_type": "cc-plugins:engineer",
+  "subagent_type": "claude-plugin:engineer",
   "description": "코드 품질 검증",
   "prompt": "{
     \"task_type\": \"code_quality\",
@@ -121,5 +121,5 @@ MIT License - [../../LICENSE](../../LICENSE) 참고
 
 ## 문의
 
-- GitHub: [inchan/cc-plugins](https://github.com/inchan/cc-plugins)
-- Issues: [Report a bug](https://github.com/inchan/cc-plugins/issues)
+- GitHub: [inchan/claude-plugins](https://github.com/inchan/claude-plugins)
+- Issues: [Report a bug](https://github.com/inchan/claude-plugins/issues)
